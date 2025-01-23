@@ -14,7 +14,8 @@
     "format:check": "biome format ./src",
     "format:fix": "biome format --write ./src",
     "lint:check": "biome lint ./src",
-    "lint:fix": "biome lint --write ./src"
+    "lint:fix": "biome lint --write ./src",
+    "knip": "knip --config knip.json"
   },
   "dependencies": {
     "react": "^19.0.0",
@@ -27,10 +28,10 @@
     "@storybook/addon-essentials": "^8.5.1",
     "@storybook/addon-interactions": "^8.5.1",
     "@storybook/addon-onboarding": "^8.5.1",
-    "@storybook/blocks": "^8.5.1",
     "@storybook/react": "^8.5.1",
     "@storybook/react-vite": "^8.5.1",
     "@storybook/test": "^8.5.1",
+    "@types/node": "^22.10.9",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react": "^4.3.4",
@@ -40,6 +41,7 @@
     "eslint-plugin-react-refresh": "^0.4.16",
     "eslint-plugin-storybook": "^0.11.2",
     "globals": "^15.14.0",
+    "knip": "^5.43.1",
     "storybook": "^8.5.1",
     "typescript": "~5.7.0",
     "typescript-eslint": "^8.18.2",
