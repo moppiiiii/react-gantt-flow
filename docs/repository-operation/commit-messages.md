@@ -13,3 +13,8 @@
 - `refactor` : Refactoring
 - `docs` : Document Update and Creation Branches
 - `backport` : Branch to reflect lower versions in support
+- `test` : Add or modify tests
+- `style` : Code style changes (formatting, indentation, spaces, etc.)
+- `ci` : Changes to Continuous Integration (CI) settings or scripts
+- `revert` : Revert a previous commit
+- `remove` : Delete a file or remove a function
