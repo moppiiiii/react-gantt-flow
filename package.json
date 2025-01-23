@@ -10,7 +10,11 @@
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "chromatic": "chromatic --only-changed"
+    "chromatic": "chromatic --only-changed",
+    "format:check": "biome format ./src",
+    "format:fix": "biome format --write ./src",
+    "lint:check": "biome lint ./src",
+    "lint:fix": "biome lint --write ./src"
   },
   "dependencies": {
     "react": "^19.0.0",
