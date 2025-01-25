@@ -3,6 +3,15 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "files": ["dist"],
+  "exports": {
+    ".": {
+      "import": "./dist/react-gantt-flow.js",
+      "require": "./dist/react-gantt-flow.cjs"
+    }
+  },
+  "module": "./dist/react-gantt-flow.js",
+  "main": "./dist/react-gantt-flow.cjs",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
