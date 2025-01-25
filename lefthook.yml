@@ -1,0 +1,15 @@
+pre-commit:
+  parallel: false
+  commands:
+    check audit:
+      run: npm audit
+    code format fix:
+      glob: "*.{js,ts,cjs,mjs,jsx,tsx,json}"
+      run: npx @biomejs/biome format --write --no-errors-on-unmatched --files-ignore-unknown=true --colors=off {staged_files}
+      stage_fixed: true
+    code lint fix:
+      glob: "*.{js,ts,cjs,mjs,jsx,tsx,json}"
+      run: npx @biomejs/biome lint --write --no-errors-on-unmatched --files-ignore-unknown=true --colors=off {staged_files}
+      stage_fixed: true
+    check knip:
+      run: npm run knip
