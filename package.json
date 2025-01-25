@@ -15,7 +15,8 @@
     "format:fix": "biome format --write ./src",
     "lint:check": "biome lint ./src",
     "lint:fix": "biome lint --write ./src",
-    "knip": "knip --config knip.json"
+    "knip": "knip --config knip.json",
+    "lefthook:init": "lefthook install"
   },
   "dependencies": {
     "react": "^19.0.0",
@@ -42,14 +43,13 @@
     "eslint-plugin-storybook": "^0.11.2",
     "globals": "^15.14.0",
     "knip": "^5.43.1",
+    "lefthook": "^1.10.10",
     "storybook": "^8.5.1",
     "typescript": "~5.7.0",
     "typescript-eslint": "^8.18.2",
     "vite": "^6.0.5"
   },
   "eslintConfig": {
-    "extends": [
-      "plugin:storybook/recommended"
-    ]
+    "extends": ["plugin:storybook/recommended"]
   }
 }
