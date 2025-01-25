@@ -1,0 +1,35 @@
+name: "Chromatic"
+
+on: pull_request
+
+jobs:
+  chromatic:
+    name: Run chromatic
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ./.node-version
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check if token exists
+        run: |
+          if [ -n "${{ secrets.CHROMATIC_PROJECT_TOKEN }}" ]; then
+            echo "chromatic token is set"
+          else
+            echo "chromatic token is not set"
+          fi
+
+      - name: Run Chromatic
+        uses: chromaui/action@latest
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          onlyChanged: true
