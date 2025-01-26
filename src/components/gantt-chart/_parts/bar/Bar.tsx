@@ -11,17 +11,20 @@ const Bar: React.FC<BarProps> = ({ task, index, dateToX }) => {
     <g>
       <rect
         x={x}
-        y={y + 10}
+        y={y + GANTT_CHART_DEFAULT_VALUE.BAR_ALIGN_MARGIN}
         rx="5"
         ry="5"
         width={width}
-        height={GANTT_CHART_DEFAULT_VALUE.BAR_HEIGHT - 20}
+        height={
+          GANTT_CHART_DEFAULT_VALUE.BAR_HEIGHT -
+          GANTT_CHART_DEFAULT_VALUE.BAR_ALIGN_MARGIN * 2
+        }
         fill="#aeb8c2"
         stroke="none"
         style={{ cursor: "pointer" }}
       />
       <text
-        x={x + 10}
+        x={x + GANTT_CHART_DEFAULT_VALUE.BAR_TEXT_LEFT_MARGIN}
         y={y + GANTT_CHART_DEFAULT_VALUE.BAR_HEIGHT / 2}
         dominantBaseline="middle"
         fill="#fff"

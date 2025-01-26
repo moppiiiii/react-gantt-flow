@@ -1,11 +1,12 @@
 import Bar from "./Bar";
+import DependenciesArrow from "../dependencies-arrow/DependenciesArrow";
 
-import type { TaskBarsProps } from "./type";
+import type { TaskBarsPosition, TaskBarsProps } from "./type";
 
 import { GANTT_CHART_DEFAULT_VALUE } from "../../constants";
 
 const TaskBars: React.FC<TaskBarsProps> = ({ tasks, dateToX }) => {
-  const barPositions = tasks.map((task, i) => {
+  const barPositions: TaskBarsPosition[] = tasks.map((task, i) => {
     const x = dateToX(task.startDate);
     const width = dateToX(task.endDate) - dateToX(task.startDate);
     const y = i * GANTT_CHART_DEFAULT_VALUE.BAR_HEIGHT;
@@ -23,6 +24,8 @@ const TaskBars: React.FC<TaskBarsProps> = ({ tasks, dateToX }) => {
           dateToX={dateToX}
         />
       ))}
+
+      <DependenciesArrow tasks={tasks} barPositions={barPositions} />
     </g>
   );
 };

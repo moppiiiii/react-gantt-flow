@@ -44,12 +44,14 @@ const GanttChart: React.FC<GanttChartProps> = ({ task }) => {
   /**
    * @description Chart width
    */
-  const chartWidth = days.length * 50;
+  const chartWidth = days.length * GANTT_CHART_DEFAULT_VALUE.GRID_COLUMN_WIDTH;
 
   /**
    * @description Chart height
    */
-  const chartHeight = task.length * 50 + GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT;
+  const chartHeight =
+    task.length * GANTT_CHART_DEFAULT_VALUE.BAR_HEIGHT +
+    GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT;
 
   /**
    * @description Date to x

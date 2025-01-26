@@ -1,5 +1,7 @@
 import type { GridLineProps } from "./type";
 
+import { GANTT_CHART_DEFAULT_VALUE } from "../../constants";
+
 const GridLines: React.FC<GridLineProps> = ({
   days,
   dateToX,
@@ -18,7 +20,7 @@ const GridLines: React.FC<GridLineProps> = ({
             x2={x}
             y2={axisHeight + chartHeight}
             stroke="#ccc"
-            strokeWidth={1}
+            strokeWidth={GANTT_CHART_DEFAULT_VALUE.GRID_STROKE_WIDTH}
             strokeDasharray="2,2"
           />
         );

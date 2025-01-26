@@ -23,7 +23,7 @@ export const TASK_MOCK_DATA: Task[] = [
   {
     id: "task-3",
     name: "設計",
-    startDate: new Date("2025-02-21"),
+    startDate: new Date("2025-02-22"),
     endDate: new Date("2025-03-05"),
     progress: 50,
     dependencies: ["task-2"],
