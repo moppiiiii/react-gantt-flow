@@ -13,6 +13,7 @@ import {
   GANTT_CHART_DEFAULT_VALUE,
   GANTT_FLOW_DEFAULT_TITLE,
 } from "./constants";
+import TaskBars from "./_parts/bar/TaskBars";
 
 const GanttChart: React.FC<GanttChartProps> = ({ task }) => {
   /**
@@ -44,12 +45,11 @@ const GanttChart: React.FC<GanttChartProps> = ({ task }) => {
    * @description Chart width
    */
   const chartWidth = days.length * 50;
-  console.log(chartWidth);
 
   /**
    * @description Chart height
    */
-  const chartHeight = task.length * 50 - GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT;
+  const chartHeight = task.length * 50 + GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT;
 
   /**
    * @description Date to x
@@ -83,6 +83,16 @@ const GanttChart: React.FC<GanttChartProps> = ({ task }) => {
         dateToX={dateToX}
         axisHeight={GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT}
         chartHeight={chartHeight}
+      />
+
+      {/* Task Bars */}
+      <TaskBars
+        tasks={normalizedTasks}
+        dateToX={dateToX}
+        barHeight={50}
+        barGap={10}
+        chartHeight={chartHeight}
+        axisHeight={GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT}
       />
     </svg>
   );

@@ -1,10 +1,10 @@
 /**
- * gantt flow svg のデフォルトタイトル
+ * @description Gantt chart default value
  */
 export const GANTT_FLOW_DEFAULT_TITLE = "React Gantt Flow" as const;
 
 /**
- * ガントチャートのデフォルト値
+ * @description Gantt chart default value
  */
 export const GANTT_CHART_DEFAULT_VALUE = {
   LEFT_MARGIN: 40,
