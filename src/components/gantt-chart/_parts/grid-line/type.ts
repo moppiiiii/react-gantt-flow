@@ -7,6 +7,10 @@ export type GridLineProps = {
    */
   days: Date[];
   /**
+   * @description Task Count
+   */
+  taskCount: number;
+  /**
    * @description Date to x
    */
   dateToX: (date: Date) => number;
@@ -14,6 +18,10 @@ export type GridLineProps = {
    * @description Axis height
    */
   axisHeight: number;
+  /**
+   * @description Chart width
+   */
+  chartWidth: number;
   /**
    * @description Chart height
    */
