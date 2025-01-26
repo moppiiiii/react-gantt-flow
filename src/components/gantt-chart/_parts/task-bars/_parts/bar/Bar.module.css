@@ -1,0 +1,17 @@
+.default-bar {
+  fill: #aeb8c2;
+}
+
+.progress-bar {
+  fill: #7979f2;
+}
+
+.task-name {
+  fill: #fff;
+  font-size: 12px;
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

@@ -4,6 +4,8 @@ import type { DependenciesArrowProps } from "./type";
 
 import { GANTT_CHART_DEFAULT_VALUE } from "../../constants";
 
+import styles from "./DependenciesArror.module.css";
+
 const DependenciesArrow: React.FC<DependenciesArrowProps> = ({
   tasks,
   barPositions,
@@ -36,8 +38,7 @@ const DependenciesArrow: React.FC<DependenciesArrowProps> = ({
             <g key={`arrow-${depId}-${task.id}`}>
               <path
                 d={pathD}
-                fill="none"
-                stroke="gray"
+                className={styles["dependencies-arrow-path"]}
                 strokeWidth={GANTT_CHART_DEFAULT_VALUE.BAR_ARROW_STROKE_WIDTH}
               />
               <polygon
@@ -46,7 +47,7 @@ const DependenciesArrow: React.FC<DependenciesArrowProps> = ({
             ${endX - 5},${endY + 5}
             ${endX - 5},${endY - 5}
           `}
-                fill="gray"
+                className={styles["dependencies-arrow-polygon"]}
               />
             </g>
           );

@@ -21,7 +21,7 @@ const GridLines: React.FC<GridLineProps> = ({
 
         return (
           <rect
-            key={`row-${y}-${rowHeight}`}
+            key={`row-${y}`}
             x={0}
             y={y}
             width={chartWidth}

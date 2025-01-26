@@ -1,5 +1,5 @@
 import type { Task } from "../../../../types/task";
-import type { TaskBarsPosition } from "../bar/type";
+import type { TaskBarsPosition } from "../task-bars/type";
 
 /**
  * @description Dependencies arrow props
