@@ -24,5 +24,8 @@ jobs:
       - name: Run Biome Link Check
         run: npm run lint:check
 
+      - name: Run Unit Test
+        run: npm run test:unit
+
       - name: Run Build
         run: npm run build
