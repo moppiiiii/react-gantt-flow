@@ -1,0 +1,4 @@
+.gantt-flow-container {
+  display: grid;
+  grid-template-columns: 450px 1fr;
+}
