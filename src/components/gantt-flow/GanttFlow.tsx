@@ -1,12 +1,14 @@
 import GanttChart from "../gantt-chart/GanttChart";
 
-import "./GanttFlow.css";
+import type { GanttFlowProps } from "./type";
 
-const GanttFlow = () => {
+import styles from "./GanttFlow.module.css";
+
+const GanttFlow: React.FC<GanttFlowProps> = ({ task }) => {
   return (
-    <div className="gantt-flow-container">
+    <div className={styles["gantt-flow-container"]}>
       <div>Grouping Area</div>
-      <GanttChart />
+      <GanttChart task={task} />
     </div>
   );
 };
