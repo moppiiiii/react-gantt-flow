@@ -1,24 +1,6 @@
 import type { Task } from "../../../../types/task";
 
 /**
- * @description Bar props
- */
-export type BarProps = {
-  /**
-   * @description Task
-   */
-  task: Task;
-  /**
-   * @description Index
-   */
-  index: number;
-  /**
-   * @description Date to x
-   */
-  dateToX: (date: Date) => number;
-};
-
-/**
  * @description Task bars props
  */
 export type TaskBarsProps = {
@@ -30,6 +12,10 @@ export type TaskBarsProps = {
    * @description Date to x
    */
   dateToX: (date: Date) => number;
+  /**
+   * @description X to date
+   */
+  xToDate: (x: number) => Date;
   /**
    * @description Bar height
    */
@@ -48,8 +34,20 @@ export type TaskBarsProps = {
   axisHeight: number;
 };
 
+/**
+ * @description Task bars position
+ */
 export type TaskBarsPosition = {
+  /**
+   * @description X
+   */
   x: number;
+  /**
+   * @description Y
+   */
   y: number;
+  /**
+   * @description Width
+   */
   width: number;
 };

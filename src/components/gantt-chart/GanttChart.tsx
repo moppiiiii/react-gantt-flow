@@ -2,6 +2,7 @@ import { useMemo } from "react";
 
 import GridLines from "./_parts/grid-line/GridLine";
 import Axis from "./_parts/axis/Axis";
+import TaskBars from "./_parts/task-bars/TaskBars";
 
 import { getNormalizeTaskDate } from "./_lib/get-normalize-task-date";
 import { getMinAndMaxDate } from "./_lib/get-min-date-and-max-date";
@@ -13,7 +14,6 @@ import {
   GANTT_CHART_DEFAULT_VALUE,
   GANTT_FLOW_DEFAULT_TITLE,
 } from "./constants";
-import TaskBars from "./_parts/bar/TaskBars";
 
 const GanttChart: React.FC<GanttChartProps> = ({ task }) => {
   /**
@@ -68,6 +68,37 @@ const GanttChart: React.FC<GanttChartProps> = ({ task }) => {
     );
   };
 
+  /**
+   * @description x to date
+   * @param x
+   * @returns
+   */
+  function xToDate(x: number): Date {
+    const totalDuration = maxDate.getTime() - minDate.getTime();
+    if (totalDuration === 0) {
+      // if minDate and maxDate are the same, return minDate
+      return new Date(minDate);
+    }
+
+    // same calculation logic as "dateToX"
+    const usableWidth = chartWidth - GANTT_CHART_DEFAULT_VALUE.RIGHT_MARGIN;
+
+    // adjusted x coordinate without left margin
+    const adjustedX = x - GANTT_CHART_DEFAULT_VALUE.LEFT_MARGIN;
+
+    // normalize x coordinate to [0, usableWidth] → [0, 1]
+    const fraction = adjustedX / usableWidth;
+
+    // if necessary, clamp to prevent dragging outside the range
+    // fraction = Math.max(0, Math.min(1, fraction));
+
+    // date time advanced by fraction of total duration
+    const offsetMs = fraction * totalDuration;
+    const dateTime = minDate.getTime() + offsetMs;
+
+    return new Date(dateTime);
+  }
+
   return (
     <svg width={chartWidth} height={chartHeight}>
       <title>{GANTT_FLOW_DEFAULT_TITLE}</title>
@@ -93,6 +124,7 @@ const GanttChart: React.FC<GanttChartProps> = ({ task }) => {
       <TaskBars
         tasks={normalizedTasks}
         dateToX={dateToX}
+        xToDate={xToDate}
         barHeight={50}
         barGap={10}
         chartHeight={chartHeight}
