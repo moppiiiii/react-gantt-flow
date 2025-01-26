@@ -82,8 +82,10 @@ const GanttChart: React.FC<GanttChartProps> = ({ task }) => {
       {/* Grid Lines */}
       <GridLines
         days={days}
+        taskCount={task.length}
         dateToX={dateToX}
         axisHeight={GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT}
+        chartWidth={chartWidth}
         chartHeight={chartHeight}
       />
 
