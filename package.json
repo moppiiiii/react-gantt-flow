@@ -56,7 +56,8 @@
     "storybook": "^8.5.1",
     "typescript": "~5.7.0",
     "typescript-eslint": "^8.18.2",
-    "vite": "^6.0.5"
+    "vite": "^6.0.5",
+    "vitest": "^3.0.4"
   },
   "eslintConfig": {
     "extends": ["plugin:storybook/recommended"]
