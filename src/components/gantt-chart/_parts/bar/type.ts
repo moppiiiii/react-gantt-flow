@@ -47,3 +47,9 @@ export type TaskBarsProps = {
    */
   axisHeight: number;
 };
+
+export type TaskBarsPosition = {
+  x: number;
+  y: number;
+  width: number;
+};
