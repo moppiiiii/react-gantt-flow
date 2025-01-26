@@ -9,7 +9,7 @@ const TaskBars: React.FC<TaskBarsProps> = ({ tasks, dateToX }) => {
   const barPositions: TaskBarsPosition[] = tasks.map((task, i) => {
     const x = dateToX(task.startDate);
     const width = dateToX(task.endDate) - dateToX(task.startDate);
-    const y = i * GANTT_CHART_DEFAULT_VALUE.BAR_HEIGHT;
+    const y = i * GANTT_CHART_DEFAULT_VALUE.BAR_AREA_HEIGHT;
 
     return { x, y, width };
   });
