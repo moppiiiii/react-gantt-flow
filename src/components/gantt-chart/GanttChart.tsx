@@ -50,7 +50,7 @@ const GanttChart: React.FC<GanttChartProps> = ({ task }) => {
    * @description Chart height
    */
   const chartHeight =
-    task.length * GANTT_CHART_DEFAULT_VALUE.BAR_HEIGHT +
+    task.length * GANTT_CHART_DEFAULT_VALUE.BAR_AREA_HEIGHT +
     GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT;
 
   /**

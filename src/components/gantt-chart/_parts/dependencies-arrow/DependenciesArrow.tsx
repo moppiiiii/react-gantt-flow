@@ -23,10 +23,12 @@ const DependenciesArrow: React.FC<DependenciesArrowProps> = ({
           const currentPos = barPositions[i];
 
           const startX = depPos.x + depPos.width;
-          const startY = depPos.y + GANTT_CHART_DEFAULT_VALUE.BAR_HEIGHT / 2;
+          const startY =
+            depPos.y + GANTT_CHART_DEFAULT_VALUE.BAR_AREA_HEIGHT / 2;
 
           const endX = currentPos.x;
-          const endY = currentPos.y + GANTT_CHART_DEFAULT_VALUE.BAR_HEIGHT / 2;
+          const endY =
+            currentPos.y + GANTT_CHART_DEFAULT_VALUE.BAR_AREA_HEIGHT / 2;
 
           const pathD = getDependenciesArrowPath(startX, startY, endX, endY);
 
