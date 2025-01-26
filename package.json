@@ -25,7 +25,8 @@
     "lint:check": "biome lint ./src",
     "lint:fix": "biome lint --write ./src",
     "knip": "knip --config knip.json",
-    "lefthook:init": "lefthook install"
+    "lefthook:init": "lefthook install",
+    "test:unit": "vitest run"
   },
   "dependencies": {
     "react": "^19.0.0",
