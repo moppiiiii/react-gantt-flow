@@ -7,8 +7,10 @@ import styles from "./GanttFlow.module.css";
 const GanttFlow: React.FC<GanttFlowProps> = ({ task }) => {
   return (
     <div className={styles["gantt-flow-container"]}>
-      <div>Grouping Area</div>
-      <GanttChart task={task} />
+      <div className={styles["task-grouping-area"]}>Grouping Area</div>
+      <div className={styles["gantt-flow-chart-container"]}>
+        <GanttChart task={task} />
+      </div>
     </div>
   );
 };
