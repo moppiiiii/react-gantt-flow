@@ -1,0 +1,5 @@
+chore: ["chore/*", "renovate/*"]
+docs: "docs/*"
+feature: ["feature/*", "feat/*", "topic/*", "experiment/*"]
+fix: ["fix/*", "hotfix/*", "backport/*"]
+refactor: "refactor/*"
