@@ -13,6 +13,7 @@
   "module": "./dist/react-gantt-flow.js",
   "main": "./dist/react-gantt-flow.cjs",
   "scripts": {
+    "prepare": "lefthook install",
     "dev": "vite",
     "dev:css": "tcm src --watch",
     "build": "tsc -b && vite build",
@@ -26,7 +27,6 @@
     "lint:check": "biome lint ./src",
     "lint:fix": "biome lint --write ./src",
     "knip": "knip --config knip.json",
-    "lefthook:init": "lefthook install",
     "test:unit": "vitest run"
   },
   "dependencies": {
