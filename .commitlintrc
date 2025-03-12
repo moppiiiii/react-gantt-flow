@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json.schemastore.org/commitlintrc.json",
+  "extends": ["@commitlint/config-conventional"],
+  "rules": {
+    "type-enum": [2, "always", [
+        "feat",
+        "feature",
+        "fix",
+        "docs",
+        "style",
+        "refactor",
+        "test",
+        "chore",
+        "ci",
+        "perf",
+        "build",
+        "delete",
+        "wip"
+      ]
+    ]
+  }
+}

@@ -13,3 +13,8 @@ pre-commit:
       stage_fixed: true
     check knip:
       run: npm run knip
+
+commit-msg:
+  commands:
+    commitlint:
+      run: npx commitlint --edit "$1"
