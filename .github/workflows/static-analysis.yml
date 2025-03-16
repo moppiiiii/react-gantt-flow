@@ -24,7 +24,7 @@ jobs:
           run_install: false
 
       - name: Install Dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - name: Run Biome Format Check
         run: pnpm run format:check
