@@ -14,6 +14,7 @@ import {
   GANTT_CHART_DEFAULT_VALUE,
   GANTT_FLOW_DEFAULT_TITLE,
 } from "./constants";
+import TodayLine from "./_parts/today-line/TodayLine";
 
 const GanttChart: React.FC<GanttChartProps> = ({ task }) => {
   /**
@@ -129,6 +130,13 @@ const GanttChart: React.FC<GanttChartProps> = ({ task }) => {
         barGap={10}
         chartHeight={chartHeight}
         axisHeight={GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT}
+      />
+
+      {/* Today's Line */}
+      <TodayLine
+        dateToX={dateToX}
+        axisHeight={GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT}
+        chartHeight={chartHeight}
       />
     </svg>
   );

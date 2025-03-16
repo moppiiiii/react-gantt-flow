@@ -10,6 +10,7 @@ const Axis: React.FC<AxisProps> = ({ days, dateToX }) => {
       {days.map((day) => {
         const x = dateToX(day);
         const dateString = day.getDate().toString();
+        const monthString = (day.getMonth() + 1).toString();
 
         return (
           <g key={day.toISOString()} transform={`translate(${x}, 0)`}>
@@ -18,7 +19,7 @@ const Axis: React.FC<AxisProps> = ({ days, dateToX }) => {
               y={GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT / 2}
               textAnchor="middle"
             >
-              {dateString}
+              {monthString}/{dateString}
             </text>
           </g>
         );

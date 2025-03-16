@@ -10,6 +10,7 @@ export const BarDateHandle: React.FC<BarDateHandleProps> = ({
 }) => {
   return (
     <rect
+      tabIndex={0}
       className={styles["bar-date-handle"]}
       x={x}
       y={y}
