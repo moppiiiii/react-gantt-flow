@@ -5,7 +5,7 @@ import { BarProgressHandle } from "../bar-progress-handle/BarProgressHandle";
 
 import type { BarProps } from "./type";
 
-import { GANTT_CHART_DEFAULT_VALUE } from "../../../../constants";
+import { GANTT_CHART_DEFAULT_VALUE } from "../../constants";
 
 import styles from "./Bar.module.css";
 
