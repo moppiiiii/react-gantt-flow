@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import Bar from "./_parts/bar/Bar";
+import Bar from "../../_parts/bar/Bar";
 import DependenciesArrow from "../dependencies-arrow/DependenciesArrow";
 
 import type { TaskBarsPosition, TaskBarsProps } from "./type";

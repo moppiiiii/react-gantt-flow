@@ -9,23 +9,31 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version-file: ./.node-version
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7
+          run_install: false
+
       - name: Install Dependencies
-        run: npm ci
+        run: pnpm install
 
       - name: Run Biome Format Check
-        run: npm run format:check
+        run: pnpm run format:check
 
       - name: Run Biome Link Check
-        run: npm run lint:check
+        run: pnpm run lint:check
 
       - name: Run Unit Test
-        run: npm run test:unit
+        run: pnpm run test:unit
 
       - name: Run Build
-        run: npm run build
+        run: pnpm run build

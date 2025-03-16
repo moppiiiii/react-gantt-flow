@@ -1,4 +1,4 @@
-import { getDependenciesArrowPath } from "./_lib/get-dependencies-arrow-path";
+import { getDependenciesArrowPath } from "../../_lib/get-dependencies-arrow-path";
 
 import type { DependenciesArrowProps } from "./type";
 

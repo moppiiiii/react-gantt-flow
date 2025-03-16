@@ -1,4 +1,4 @@
-import { GANTT_CHART_DEFAULT_VALUE } from "../../../../constants";
+import { GANTT_CHART_DEFAULT_VALUE } from "../../constants";
 
 /**
  * @description Get dependencies arrow path
