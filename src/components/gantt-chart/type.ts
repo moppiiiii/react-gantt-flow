@@ -8,4 +8,10 @@ export type GanttChartProps = {
    * @description Tasks
    */
   task: Task[];
+  /**
+   * @description Today's line display
+   *
+   * @default false
+   */
+  todaysLineDisplay?: boolean;
 };
