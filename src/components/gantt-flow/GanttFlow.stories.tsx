@@ -20,3 +20,9 @@ export const Default: Story = {};
 Default.args = {
   task: TASK_MOCK_DATA,
 };
+
+export const WithGroupingArea: Story = {};
+WithGroupingArea.args = {
+  task: TASK_MOCK_DATA,
+  groupAreaDisplay: true,
+};

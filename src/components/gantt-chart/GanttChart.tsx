@@ -16,7 +16,10 @@ import {
 } from "./constants";
 import TodayLine from "./_parts/today-line/TodayLine";
 
-const GanttChart: React.FC<GanttChartProps> = ({ task }) => {
+const GanttChart: React.FC<GanttChartProps> = ({
+  task,
+  todaysLineDisplay = false,
+}) => {
   /**
    * @description Normalized tasks
    */
@@ -132,12 +135,13 @@ const GanttChart: React.FC<GanttChartProps> = ({ task }) => {
         axisHeight={GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT}
       />
 
-      {/* Today's Line */}
-      <TodayLine
-        dateToX={dateToX}
-        axisHeight={GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT}
-        chartHeight={chartHeight}
-      />
+      {todaysLineDisplay && (
+        <TodayLine
+          dateToX={dateToX}
+          axisHeight={GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT}
+          chartHeight={chartHeight}
+        />
+      )}
     </svg>
   );
 };
