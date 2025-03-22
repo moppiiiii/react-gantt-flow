@@ -1,16 +1,11 @@
 import { useMemo } from "react";
-
 import Grid from "./Grid";
 import Axis from "./Axis";
 import TaskBars from "./TaskBars";
 import TodayLine from "./TodayLine";
-
-import { getNormalizeTaskDate } from "@/utils/get-normalize-task-date";
 import { getMinAndMaxDate } from "@/utils/get-min-date-and-max-date";
 import { getDateRange } from "@/utils/get-task-date-range";
-
 import type { GanttChartProps } from "./type";
-
 import {
   GANTT_CHART_DEFAULT_VALUE,
   GANTT_FLOW_DEFAULT_TITLE,
@@ -20,46 +15,26 @@ const GanttChart: React.FC<GanttChartProps> = ({
   task,
   todaysLineDisplay = false,
 }) => {
-  /**
-   * @description Normalized tasks
-   */
-  const normalizedTasks = getNormalizeTaskDate(task);
-
-  /**
-   * @description Min and max date
-   */
   const [minDate, maxDate] = useMemo(() => {
-    if (normalizedTasks.length === 0) {
+    if (task.length === 0) {
       const now = new Date();
       return [now, now];
     }
-    const { min, max } = getMinAndMaxDate(normalizedTasks);
+    const { min, max } = getMinAndMaxDate(task);
     return [min, max];
-  }, [normalizedTasks]);
+  }, [task]);
 
-  /**
-   * @description Create an array for each “day” from minDate to maxDate
-   */
   const days = useMemo(
     () => getDateRange(minDate, maxDate),
     [minDate, maxDate],
   );
 
-  /**
-   * @description Chart width
-   */
   const chartWidth = days.length * GANTT_CHART_DEFAULT_VALUE.GRID_COLUMN_WIDTH;
 
-  /**
-   * @description Chart height
-   */
   const chartHeight =
     task.length * GANTT_CHART_DEFAULT_VALUE.BAR_AREA_HEIGHT +
     GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT;
 
-  /**
-   * @description Date to x
-   */
   const dateToX = (date: Date): number => {
     const totalDuration = maxDate.getTime() - minDate.getTime();
     const currentOffset = date.getTime() - minDate.getTime();
@@ -72,31 +47,18 @@ const GanttChart: React.FC<GanttChartProps> = ({
     );
   };
 
-  /**
-   * @description x to date
-   * @param x
-   * @returns
-   */
   function xToDate(x: number): Date {
     const totalDuration = maxDate.getTime() - minDate.getTime();
     if (totalDuration === 0) {
-      // if minDate and maxDate are the same, return minDate
       return new Date(minDate);
     }
 
-    // same calculation logic as "dateToX"
     const usableWidth = chartWidth - GANTT_CHART_DEFAULT_VALUE.RIGHT_MARGIN;
 
-    // adjusted x coordinate without left margin
     const adjustedX = x - GANTT_CHART_DEFAULT_VALUE.LEFT_MARGIN;
 
-    // normalize x coordinate to [0, usableWidth] → [0, 1]
     const fraction = adjustedX / usableWidth;
 
-    // if necessary, clamp to prevent dragging outside the range
-    // fraction = Math.max(0, Math.min(1, fraction));
-
-    // date time advanced by fraction of total duration
     const offsetMs = fraction * totalDuration;
     const dateTime = minDate.getTime() + offsetMs;
 
@@ -123,13 +85,15 @@ const GanttChart: React.FC<GanttChartProps> = ({
       />
 
       <TaskBars
-        tasks={normalizedTasks}
+        tasks={task}
         dateToX={dateToX}
         xToDate={xToDate}
         barHeight={50}
         barGap={10}
         chartHeight={chartHeight}
         axisHeight={GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT}
+        chartMinDate={minDate}
+        chartMaxDate={maxDate}
       />
 
       {todaysLineDisplay && (
