@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-import GridLines from "./_parts/grid-line/GridLine";
+import Grid from "./_parts/grid/Grid";
 import Axis from "./_parts/axis/Axis";
 import TaskBars from "./_parts/task-bars/TaskBars";
 
@@ -107,15 +107,13 @@ const GanttChart: React.FC<GanttChartProps> = ({
     <svg width={chartWidth} height={chartHeight}>
       <title>{GANTT_FLOW_DEFAULT_TITLE}</title>
 
-      {/* Axis */}
       <Axis
         days={days}
         dateToX={dateToX}
         axisHeight={GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT}
       />
 
-      {/* Grid Lines */}
-      <GridLines
+      <Grid
         days={days}
         taskCount={task.length}
         dateToX={dateToX}
@@ -124,7 +122,6 @@ const GanttChart: React.FC<GanttChartProps> = ({
         chartHeight={chartHeight}
       />
 
-      {/* Task Bars */}
       <TaskBars
         tasks={normalizedTasks}
         dateToX={dateToX}

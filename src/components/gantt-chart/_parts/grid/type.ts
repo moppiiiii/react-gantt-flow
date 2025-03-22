@@ -1,7 +1,7 @@
 /**
  * @description GridLine props
  */
-export type GridLineProps = {
+export type GridProps = {
   /**
    * @description Days
    */
