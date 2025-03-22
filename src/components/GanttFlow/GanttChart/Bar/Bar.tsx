@@ -17,6 +17,8 @@ const Bar: React.FC<BarProps> = ({
   dateToX,
   xToDate,
   onDateChange,
+  chartMinDate,
+  chartMaxDate,
 }) => {
   const [localStartDate, setLocalStartDate] = useState(task.startDate);
   const [localEndDate, setLocalEndDate] = useState(task.endDate);
@@ -89,13 +91,22 @@ const Bar: React.FC<BarProps> = ({
 
       // (1) start date handle is dragging
       if (draggingStart) {
-        const newStartX = initialStartX + deltaX;
-        let newStartDate = xToDate(newStartX);
+        const GRID_WIDTH = GANTT_CHART_DEFAULT_VALUE.GRID_COLUMN_WIDTH;
+        const daysDelta = Math.round(deltaX / GRID_WIDTH);
+        const baseStartDate = xToDate(initialStartX);
+        let newStartDate = new Date(
+          baseStartDate.getTime() + daysDelta * ONE_DAY_MS,
+        );
+
+        // Restrict dragging to chart's left boundary
+        const effectiveChartMinDate =
+          chartMinDate ?? xToDate(GANTT_CHART_DEFAULT_VALUE.LEFT_MARGIN);
+        if (newStartDate.getTime() < effectiveChartMinDate.getTime()) {
+          newStartDate = effectiveChartMinDate;
+        }
 
         // ensure minimum 1 day between start date and end date
-        // first, calculate "end date - 1 day"
         const minStartMs = localEndDate.getTime() - ONE_DAY_MS;
-        // if new start date is in the future, set it to minStartMs
         if (newStartDate.getTime() > minStartMs) {
           newStartDate = new Date(minStartMs);
         }
@@ -105,12 +116,20 @@ const Bar: React.FC<BarProps> = ({
       }
       // (2) end date handle is dragging
       else if (draggingEnd) {
-        const newEndX = initialEndX + deltaX;
-        let newEndDate = xToDate(newEndX);
+        const GRID_WIDTH = GANTT_CHART_DEFAULT_VALUE.GRID_COLUMN_WIDTH;
+        const daysDelta = Math.round(deltaX / GRID_WIDTH);
+        const baseEndDate = xToDate(initialEndX);
+        let newEndDate = new Date(
+          baseEndDate.getTime() + daysDelta * ONE_DAY_MS,
+        );
 
-        // start date + 1 day
+        // If chartMaxDate is provided, restrict dragging to chart's right boundary
+        if (chartMaxDate && newEndDate.getTime() > chartMaxDate.getTime()) {
+          newEndDate = chartMaxDate;
+        }
+
+        // start date + 1 day constraint
         const minEndMs = localStartDate.getTime() + ONE_DAY_MS;
-        // if new end date is in the past, set it to minEndMs
         if (newEndDate.getTime() < minEndMs) {
           newEndDate = new Date(minEndMs);
         }
@@ -163,6 +182,8 @@ const Bar: React.FC<BarProps> = ({
     width,
     xToDate,
     onDateChange,
+    chartMinDate,
+    chartMaxDate,
   ]);
 
   return (

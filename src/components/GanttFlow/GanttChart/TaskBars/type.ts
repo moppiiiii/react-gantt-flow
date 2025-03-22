@@ -32,6 +32,14 @@ export type TaskBarsProps = {
    * @description Axis height
    */
   axisHeight: number;
+  /**
+   * @description Chart minimum date
+   */
+  chartMinDate: Date;
+  /**
+   * @description Chart maximum date
+   */
+  chartMaxDate: Date;
 };
 
 /**

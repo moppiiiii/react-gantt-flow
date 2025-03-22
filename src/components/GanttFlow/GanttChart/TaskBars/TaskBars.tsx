@@ -7,7 +7,13 @@ import type { TaskBarsPosition, TaskBarsProps } from "./type";
 
 import { GANTT_CHART_DEFAULT_VALUE } from "../constants";
 
-const TaskBars: React.FC<TaskBarsProps> = ({ tasks, dateToX, xToDate }) => {
+const TaskBars: React.FC<TaskBarsProps> = ({
+  tasks,
+  dateToX,
+  xToDate,
+  chartMinDate,
+  chartMaxDate,
+}) => {
   const [localTasks, setLocalTasks] = useState(tasks);
 
   const barPositions: TaskBarsPosition[] = localTasks.map((task, i) => {
@@ -41,6 +47,8 @@ const TaskBars: React.FC<TaskBarsProps> = ({ tasks, dateToX, xToDate }) => {
           dateToX={dateToX}
           xToDate={xToDate}
           onDateChange={handleUpdateTaskDate}
+          chartMinDate={chartMinDate}
+          chartMaxDate={chartMaxDate}
         />
       ))}
     </g>
