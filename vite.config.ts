@@ -14,6 +14,11 @@ export default defineConfig({
       insertTypesEntry: true,
     }),
   ],
+  resolve: {
+    alias: {
+      "@": resolve(".", "src"),
+    },
+  },
   server: {
     port: 3000,
     strictPort: true,

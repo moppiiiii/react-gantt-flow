@@ -1,3 +1,2 @@
-import GanttFlow from "./components/gantt-flow/GanttFlow";
-
-export { GanttFlow };
+export { default as GanttFlow } from "./components/GanttFlow";
+export * from "./components/GanttFlow";
