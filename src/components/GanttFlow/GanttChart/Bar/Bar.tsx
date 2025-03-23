@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import BarDateHandle from "../BarDateHandle";
 import BarProgressHandle from "../BarProgressHandle";
@@ -17,8 +17,6 @@ const Bar: React.FC<BarProps> = ({
   dateToX,
   xToDate,
   onDateChange,
-  chartMinDate,
-  chartMaxDate,
 }) => {
   const [localStartDate, setLocalStartDate] = useState(task.startDate);
   const [localEndDate, setLocalEndDate] = useState(task.endDate);
@@ -36,6 +34,8 @@ const Bar: React.FC<BarProps> = ({
   const [initialStartX, setInitialStartX] = useState(0);
   const [initialEndX, setInitialEndX] = useState(0);
   const [initialProgress, setInitialProgress] = useState(task.progress);
+  const [displayOutside, setDisplayOutside] = useState(false);
+  const textRef = useRef<SVGTextElement>(null);
 
   const startX = dateToX(localStartDate);
   const endX = dateToX(localEndDate);
@@ -98,13 +98,6 @@ const Bar: React.FC<BarProps> = ({
           baseStartDate.getTime() + daysDelta * ONE_DAY_MS,
         );
 
-        // Restrict dragging to chart's left boundary
-        const effectiveChartMinDate =
-          chartMinDate ?? xToDate(GANTT_CHART_DEFAULT_VALUE.LEFT_MARGIN);
-        if (newStartDate.getTime() < effectiveChartMinDate.getTime()) {
-          newStartDate = effectiveChartMinDate;
-        }
-
         // ensure minimum 1 day between start date and end date
         const minStartMs = localEndDate.getTime() - ONE_DAY_MS;
         if (newStartDate.getTime() > minStartMs) {
@@ -123,12 +116,7 @@ const Bar: React.FC<BarProps> = ({
           baseEndDate.getTime() + daysDelta * ONE_DAY_MS,
         );
 
-        // If chartMaxDate is provided, restrict dragging to chart's right boundary
-        if (chartMaxDate && newEndDate.getTime() > chartMaxDate.getTime()) {
-          newEndDate = chartMaxDate;
-        }
-
-        // start date + 1 day constraint
+        // start date + 1 day
         const minEndMs = localStartDate.getTime() + ONE_DAY_MS;
         if (newEndDate.getTime() < minEndMs) {
           newEndDate = new Date(minEndMs);
@@ -182,9 +170,14 @@ const Bar: React.FC<BarProps> = ({
     width,
     xToDate,
     onDateChange,
-    chartMinDate,
-    chartMaxDate,
   ]);
+
+  useEffect(() => {
+    if (textRef.current) {
+      const textBBox = textRef.current.getBBox();
+      setDisplayOutside(textBBox.width + 10 > width);
+    }
+  }, [width]);
 
   return (
     <g
@@ -223,11 +216,12 @@ const Bar: React.FC<BarProps> = ({
 
       {/* task name */}
       <text
+        ref={textRef}
         className={styles["task-name"]}
-        x={startX + width / 2}
+        x={displayOutside ? endX + 5 : startX + width / 2}
         y={y + GANTT_CHART_DEFAULT_VALUE.BAR_AREA_HEIGHT / 1.95}
         dominantBaseline="middle"
-        textAnchor="middle"
+        textAnchor={displayOutside ? "start" : "middle"}
       >
         {task.name}
       </text>

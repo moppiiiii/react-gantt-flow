@@ -1,14 +1,17 @@
 .default-bar {
-  fill: #aeb8c2;
+  border: 1px solid #454444;
+  fill: #fff;
+  stroke: #454444;
+  stroke-width: 0.5;
 }
 
 .progress-bar {
-  fill: #7979f2;
+  fill: #d7d7d7;
 }
 
 .task-name {
-  fill: #fff;
-  font-size: 12px;
+  fill: #454444;
+  font-size: 10px;
   pointer-events: none;
   user-select: none;
   white-space: nowrap;
