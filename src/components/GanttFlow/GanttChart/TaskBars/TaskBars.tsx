@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import Bar from "../Bar";
 import DependenciesArrow from "../DependenciesArrow";
 
@@ -13,10 +11,9 @@ const TaskBars: React.FC<TaskBarsProps> = ({
   xToDate,
   chartMinDate,
   chartMaxDate,
+  onTaskUpdate,
 }) => {
-  const [localTasks, setLocalTasks] = useState(tasks);
-
-  const barPositions: TaskBarsPosition[] = localTasks.map((task, i) => {
+  const barPositions: TaskBarsPosition[] = tasks.map((task, i) => {
     const x = dateToX(task.startDate);
     const width = dateToX(task.endDate) - dateToX(task.startDate);
     const y = i * GANTT_CHART_DEFAULT_VALUE.BAR_AREA_HEIGHT;
@@ -27,19 +24,16 @@ const TaskBars: React.FC<TaskBarsProps> = ({
     taskId: string,
     newStart: Date,
     newEnd: Date,
+    newProgress?: number,
   ) => {
-    setLocalTasks((prevTasks) =>
-      prevTasks.map((t) =>
-        t.id === taskId ? { ...t, startDate: newStart, endDate: newEnd } : t,
-      ),
-    );
+    onTaskUpdate(taskId, newStart, newEnd, newProgress);
   };
 
   return (
     <g transform={`translate(0, ${GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT})`}>
-      <DependenciesArrow tasks={localTasks} barPositions={barPositions} />
+      <DependenciesArrow tasks={tasks} barPositions={barPositions} />
 
-      {localTasks.map((task, index) => (
+      {tasks.map((task, index) => (
         <Bar
           key={`bar-${task.id}`}
           task={task}

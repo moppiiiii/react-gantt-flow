@@ -23,7 +23,12 @@ export type BarProps = {
   /**
    * @description onDateChange
    */
-  onDateChange: (taskId: string, newStart: Date, newEnd: Date) => void;
+  onDateChange: (
+    taskId: string,
+    newStart: Date,
+    newEnd: Date,
+    newProgress?: number,
+  ) => void;
   /**
    * @description Chart minimum date
    */

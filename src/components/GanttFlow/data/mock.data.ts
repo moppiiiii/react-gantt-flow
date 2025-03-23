@@ -1,4 +1,12 @@
-import type { Task } from "../../../types/task";
+import type { Task } from "@/types/task";
+
+const now = new Date();
+const MS_PER_DAY = 1000 * 60 * 60 * 24;
+
+const implementationStart = new Date(now.getTime() - 5 * MS_PER_DAY);
+const implementationEnd = new Date(
+  implementationStart.getTime() + 9 * MS_PER_DAY,
+);
 
 /**
  * @description Mock data
@@ -7,80 +15,80 @@ export const TASK_MOCK_DATA: Task[] = [
   {
     id: "task-1",
     name: "Project Plan Creation",
-    startDate: new Date("2025-03-01"),
-    endDate: new Date("2025-03-03"),
+    startDate: new Date(implementationStart.getTime() - 15 * MS_PER_DAY),
+    endDate: new Date(implementationStart.getTime() - 8 * MS_PER_DAY),
     progress: 100,
     dependencies: [],
   },
   {
     id: "task-2",
     name: "Requirements Definition",
-    startDate: new Date("2025-03-04"),
-    endDate: new Date("2025-03-06"),
+    startDate: new Date(implementationStart.getTime() - 10 * MS_PER_DAY),
+    endDate: new Date(implementationStart.getTime() - 5 * MS_PER_DAY),
     progress: 75,
     dependencies: ["task-1"],
   },
   {
     id: "task-3",
     name: "Design",
-    startDate: new Date("2025-03-07"),
-    endDate: new Date("2025-03-10"),
+    startDate: new Date(implementationStart.getTime() - 8 * MS_PER_DAY),
+    endDate: new Date(implementationStart.getTime() - 1 * MS_PER_DAY),
     progress: 50,
     dependencies: ["task-2"],
   },
   {
     id: "task-4",
     name: "Implementation",
-    startDate: new Date("2025-03-11"),
-    endDate: new Date("2025-03-20"),
+    startDate: implementationStart,
+    endDate: implementationEnd,
     progress: 25,
     dependencies: ["task-3"],
   },
   {
     id: "task-5",
     name: "Testing",
-    startDate: new Date("2025-03-21"),
-    endDate: new Date("2025-03-25"),
+    startDate: new Date(implementationStart.getTime() + 10 * MS_PER_DAY),
+    endDate: new Date(implementationStart.getTime() + 14 * MS_PER_DAY),
     progress: 0,
     dependencies: ["task-4"],
   },
   {
     id: "task-6",
     name: "Documentation",
-    startDate: new Date("2025-03-07"),
-    endDate: new Date("2025-03-10"),
+    startDate: new Date(implementationStart.getTime() + 4 * MS_PER_DAY),
+    endDate: new Date(implementationStart.getTime() + 9 * MS_PER_DAY),
     progress: 40,
-    dependencies: ["task-2"],
+    dependencies: ["task-5"],
   },
   {
     id: "task-7",
     name: "User Training",
-    startDate: new Date("2025-03-26"),
-    endDate: new Date("2025-03-28"),
+    startDate: new Date(implementationStart.getTime() + 14 * MS_PER_DAY),
+    endDate: new Date(implementationStart.getTime() + 17 * MS_PER_DAY),
     progress: 0,
     dependencies: ["task-5"],
   },
   {
     id: "task-8",
     name: "Quality Assurance Review",
-    startDate: new Date("2025-03-11"),
-    endDate: new Date("2025-03-13"),
+    startDate: implementationStart,
+    endDate: new Date(implementationStart.getTime() + 2 * MS_PER_DAY),
     progress: 60,
     dependencies: ["task-3"],
   },
   {
     id: "task-9",
     name: "Market Research",
-    startDate: new Date("2025-03-01"),
-    endDate: new Date("2025-03-04"),
+    startDate: new Date(implementationStart.getTime() - 10 * MS_PER_DAY),
+    endDate: new Date(implementationStart.getTime() - 7 * MS_PER_DAY),
     progress: 80,
     dependencies: [],
   },
   {
     id: "task-10",
     name: "Competitive Analysis",
-    startDate: new Date("2025-03-05"),
-    endDate: new Date("2025-03-08"),
+    startDate: new Date(implementationStart.getTime() - 6 * MS_PER_DAY),
+    endDate: new Date(implementationStart.getTime() - 3 * MS_PER_DAY),
     progress: 50,
     dependencies: ["task-9"],
   },

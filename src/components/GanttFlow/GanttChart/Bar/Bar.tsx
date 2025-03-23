@@ -131,6 +131,9 @@ const Bar: React.FC<BarProps> = ({
         let newProgress = initialProgress + deltaProgress;
         newProgress = Math.max(0, Math.min(100, newProgress));
         setLocalProgress(newProgress);
+        if (onDateChange) {
+          onDateChange(task.id, localStartDate, localEndDate, newProgress);
+        }
       }
     };
 

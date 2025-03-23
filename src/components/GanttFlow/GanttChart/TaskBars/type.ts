@@ -17,22 +17,6 @@ export type TaskBarsProps = {
    */
   xToDate: (x: number) => Date;
   /**
-   * @description Bar height
-   */
-  barHeight: number;
-  /**
-   * @description Bar gap
-   */
-  barGap: number;
-  /**
-   * @description Chart height
-   */
-  chartHeight: number;
-  /**
-   * @description Axis height
-   */
-  axisHeight: number;
-  /**
    * @description Chart minimum date
    */
   chartMinDate: Date;
@@ -40,6 +24,15 @@ export type TaskBarsProps = {
    * @description Chart maximum date
    */
   chartMaxDate: Date;
+  /**
+   * @description On task update
+   */
+  onTaskUpdate: (
+    taskId: string,
+    newStart: Date,
+    newEnd: Date,
+    newProgress?: number,
+  ) => void;
 };
 
 /**

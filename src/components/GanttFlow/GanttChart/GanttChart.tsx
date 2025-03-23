@@ -1,10 +1,11 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { addDays } from "date-fns";
 import Grid from "./Grid";
 import DaysRow from "./DaysRow";
 import MonthsRow from "./MonthsRow";
 import TaskBars from "./TaskBars";
 import TodayLine from "./TodayLine";
+import InazumaLine from "./InazumaLine";
 import { getMinAndMaxDate } from "@/utils/get-min-date-and-max-date";
 import { getDateRange } from "@/utils/get-task-date-range";
 import type { GanttChartProps } from "./type";
@@ -32,10 +33,13 @@ const GanttChart: React.FC<GanttChartProps> = ({
     [minDate, maxDate],
   );
 
+  // タスク状態を GanttChart 内で管理
+  const [tasksState, setTasksState] = useState(task);
+
   const chartWidth = days.length * GANTT_CHART_DEFAULT_VALUE.GRID_COLUMN_WIDTH;
 
   const chartHeight =
-    task.length * GANTT_CHART_DEFAULT_VALUE.BAR_AREA_HEIGHT +
+    tasksState.length * GANTT_CHART_DEFAULT_VALUE.BAR_AREA_HEIGHT +
     GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT;
 
   const dateToX = (date: Date): number => {
@@ -87,7 +91,7 @@ const GanttChart: React.FC<GanttChartProps> = ({
 
       <Grid
         days={days}
-        taskCount={task.length}
+        taskCount={tasksState.length}
         dateToX={dateToX}
         axisHeight={GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT}
         chartWidth={chartWidth}
@@ -95,23 +99,43 @@ const GanttChart: React.FC<GanttChartProps> = ({
       />
 
       <TaskBars
-        tasks={task}
+        tasks={tasksState}
         dateToX={dateToX}
         xToDate={xToDate}
-        barHeight={50}
-        barGap={10}
-        chartHeight={chartHeight}
-        axisHeight={GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT}
+        onTaskUpdate={(taskId, newStart, newEnd, newProgress) =>
+          setTasksState((prev) =>
+            prev.map((t) =>
+              t.id === taskId
+                ? {
+                    ...t,
+                    startDate: newStart,
+                    endDate: newEnd,
+                    ...(newProgress !== undefined
+                      ? { progress: newProgress }
+                      : {}),
+                  }
+                : t,
+            ),
+          )
+        }
         chartMinDate={minDate}
         chartMaxDate={maxDate}
       />
 
       {todaysLineDisplay && (
-        <TodayLine
-          dateToX={dateToX}
-          axisHeight={GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT}
-          chartHeight={chartHeight}
-        />
+        <>
+          <InazumaLine
+            tasks={tasksState}
+            dateToX={dateToX}
+            axisHeight={GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT}
+            barAreaHeight={GANTT_CHART_DEFAULT_VALUE.BAR_AREA_HEIGHT}
+          />
+          <TodayLine
+            dateToX={dateToX}
+            axisHeight={GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT}
+            chartHeight={chartHeight}
+          />
+        </>
       )}
     </svg>
   );
