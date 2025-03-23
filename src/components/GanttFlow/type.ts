@@ -20,4 +20,10 @@ export type GanttFlowProps = {
    * @default false
    */
   todaysLineDisplay?: boolean;
+  /**
+   * @description Inazuma line display
+   *
+   * @default false
+   */
+  inazumaLineDisplay?: boolean;
 };

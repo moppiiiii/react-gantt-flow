@@ -19,6 +19,20 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     task: TASK_MOCK_DATA,
+  },
+};
+
+export const TodaysLineDisplay: Story = {
+  args: {
+    task: TASK_MOCK_DATA,
     todaysLineDisplay: true,
+  },
+};
+
+export const InazumaLineDisplay: Story = {
+  args: {
+    task: TASK_MOCK_DATA,
+    todaysLineDisplay: true,
+    inazumaLineDisplay: true,
   },
 };

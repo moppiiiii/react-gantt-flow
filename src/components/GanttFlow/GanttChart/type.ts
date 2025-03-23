@@ -9,6 +9,12 @@ export type GanttChartProps = {
    */
   task: Task[];
   /**
+   * @description Inazuma line display
+   *
+   * @default false
+   */
+  inazumaLineDisplay?: boolean;
+  /**
    * @description Today's line display
    *
    * @default false
