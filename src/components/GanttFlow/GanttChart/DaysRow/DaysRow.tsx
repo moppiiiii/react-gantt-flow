@@ -1,25 +1,24 @@
-import type { AxisProps } from "./type";
+import type { DaysRowProps } from "./type";
 
-import { GANTT_CHART_DEFAULT_VALUE } from "../constants";
+import styles from "./DaysRow.module.css";
 
-import styles from "./Axis.module.css";
-
-const Axis: React.FC<AxisProps> = ({ days, dateToX }) => {
+const DaysRow: React.FC<
+  DaysRowProps & { axisHeight: number; yOffset?: number }
+> = ({ days, dateToX, axisHeight, yOffset = 0 }) => {
   return (
-    <g>
+    <g transform={`translate(0, ${yOffset})`}>
       {days.map((day) => {
         const x = dateToX(day);
         const dateString = day.getDate().toString();
-        const monthString = (day.getMonth() + 1).toString();
 
         return (
           <g key={day.toISOString()} transform={`translate(${x}, 0)`}>
             <text
               className={styles["axis-text"]}
-              y={GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT / 2}
+              y={axisHeight / 2}
               textAnchor="middle"
             >
-              {monthString}/{dateString}
+              {dateString}
             </text>
           </g>
         );
@@ -28,4 +27,4 @@ const Axis: React.FC<AxisProps> = ({ days, dateToX }) => {
   );
 };
 
-export default Axis;
+export default DaysRow;

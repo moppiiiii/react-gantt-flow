@@ -1,7 +1,7 @@
 /**
  * @description Axis props
  */
-export type AxisProps = {
+export type DaysRowProps = {
   /**
    * @description Axis height
    */

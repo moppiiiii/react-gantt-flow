@@ -6,7 +6,7 @@ import type { Task } from "../../../types/task";
 export const TASK_MOCK_DATA: Task[] = [
   {
     id: "task-1",
-    name: "プロジェクト計画の作成",
+    name: "Project Plan Creation",
     startDate: new Date("2025-03-01"),
     endDate: new Date("2025-03-03"),
     progress: 100,
@@ -14,7 +14,7 @@ export const TASK_MOCK_DATA: Task[] = [
   },
   {
     id: "task-2",
-    name: "要件定義",
+    name: "Requirements Definition",
     startDate: new Date("2025-03-04"),
     endDate: new Date("2025-03-06"),
     progress: 75,
@@ -22,7 +22,7 @@ export const TASK_MOCK_DATA: Task[] = [
   },
   {
     id: "task-3",
-    name: "設計",
+    name: "Design",
     startDate: new Date("2025-03-07"),
     endDate: new Date("2025-03-10"),
     progress: 50,
@@ -30,7 +30,7 @@ export const TASK_MOCK_DATA: Task[] = [
   },
   {
     id: "task-4",
-    name: "実装",
+    name: "Implementation",
     startDate: new Date("2025-03-11"),
     endDate: new Date("2025-03-20"),
     progress: 25,
@@ -38,7 +38,7 @@ export const TASK_MOCK_DATA: Task[] = [
   },
   {
     id: "task-5",
-    name: "テスト",
+    name: "Testing",
     startDate: new Date("2025-03-21"),
     endDate: new Date("2025-03-25"),
     progress: 0,
@@ -46,7 +46,7 @@ export const TASK_MOCK_DATA: Task[] = [
   },
   {
     id: "task-6",
-    name: "ドキュメント作成",
+    name: "Documentation",
     startDate: new Date("2025-03-07"),
     endDate: new Date("2025-03-10"),
     progress: 40,
@@ -54,7 +54,7 @@ export const TASK_MOCK_DATA: Task[] = [
   },
   {
     id: "task-7",
-    name: "ユーザートレーニング",
+    name: "User Training",
     startDate: new Date("2025-03-26"),
     endDate: new Date("2025-03-28"),
     progress: 0,
@@ -62,7 +62,7 @@ export const TASK_MOCK_DATA: Task[] = [
   },
   {
     id: "task-8",
-    name: "品質保証レビュー",
+    name: "Quality Assurance Review",
     startDate: new Date("2025-03-11"),
     endDate: new Date("2025-03-13"),
     progress: 60,
@@ -70,7 +70,7 @@ export const TASK_MOCK_DATA: Task[] = [
   },
   {
     id: "task-9",
-    name: "市場調査",
+    name: "Market Research",
     startDate: new Date("2025-03-01"),
     endDate: new Date("2025-03-04"),
     progress: 80,
@@ -78,7 +78,7 @@ export const TASK_MOCK_DATA: Task[] = [
   },
   {
     id: "task-10",
-    name: "競合分析",
+    name: "Competitive Analysis",
     startDate: new Date("2025-03-05"),
     endDate: new Date("2025-03-08"),
     progress: 50,

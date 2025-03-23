@@ -1,6 +1,8 @@
 import { useMemo } from "react";
+import { addDays } from "date-fns";
 import Grid from "./Grid";
-import Axis from "./Axis";
+import DaysRow from "./DaysRow";
+import MonthsRow from "./MonthsRow";
 import TaskBars from "./TaskBars";
 import TodayLine from "./TodayLine";
 import { getMinAndMaxDate } from "@/utils/get-min-date-and-max-date";
@@ -16,12 +18,13 @@ const GanttChart: React.FC<GanttChartProps> = ({
   todaysLineDisplay = false,
 }) => {
   const [minDate, maxDate] = useMemo(() => {
+    const offset = 7;
     if (task.length === 0) {
       const now = new Date();
-      return [now, now];
+      return [addDays(now, -offset), addDays(now, offset)];
     }
     const { min, max } = getMinAndMaxDate(task);
-    return [min, max];
+    return [addDays(min, -offset), addDays(max, offset)];
   }, [task]);
 
   const days = useMemo(
@@ -69,10 +72,17 @@ const GanttChart: React.FC<GanttChartProps> = ({
     <svg width={chartWidth} height={chartHeight}>
       <title>{GANTT_FLOW_DEFAULT_TITLE}</title>
 
-      <Axis
+      <MonthsRow
         days={days}
         dateToX={dateToX}
-        axisHeight={GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT}
+        axisHeight={GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT / 2}
+      />
+
+      <DaysRow
+        days={days}
+        dateToX={dateToX}
+        axisHeight={GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT / 2}
+        yOffset={GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT / 2}
       />
 
       <Grid

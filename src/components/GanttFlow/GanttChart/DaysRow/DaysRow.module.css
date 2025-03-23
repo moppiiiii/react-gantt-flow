@@ -1,4 +1,6 @@
 .axis-text {
   font-size: 10px;
+  font-weight: bold;
+  fill: #454444;
   user-select: none;
 }
