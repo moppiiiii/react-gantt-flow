@@ -7,6 +7,7 @@ const GanttFlow: React.FC<GanttFlowProps> = ({
   groupAreaDisplay = false,
   task,
   todaysLineDisplay = false,
+  inazumaLineDisplay = false,
 }) => {
   const normalizedTasks = getNormalizeTaskDate(task);
 
@@ -19,6 +20,7 @@ const GanttFlow: React.FC<GanttFlowProps> = ({
         <GanttChart
           task={normalizedTasks}
           todaysLineDisplay={todaysLineDisplay}
+          inazumaLineDisplay={inazumaLineDisplay}
         />
       </div>
     </div>

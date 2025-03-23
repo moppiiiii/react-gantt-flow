@@ -25,7 +25,7 @@ export const TASK_MOCK_DATA: Task[] = [
     name: "Requirements Definition",
     startDate: new Date(implementationStart.getTime() - 10 * MS_PER_DAY),
     endDate: new Date(implementationStart.getTime() - 5 * MS_PER_DAY),
-    progress: 75,
+    progress: 100,
     dependencies: ["task-1"],
   },
   {
@@ -33,7 +33,7 @@ export const TASK_MOCK_DATA: Task[] = [
     name: "Design",
     startDate: new Date(implementationStart.getTime() - 8 * MS_PER_DAY),
     endDate: new Date(implementationStart.getTime() - 1 * MS_PER_DAY),
-    progress: 50,
+    progress: 100,
     dependencies: ["task-2"],
   },
   {
@@ -41,7 +41,7 @@ export const TASK_MOCK_DATA: Task[] = [
     name: "Implementation",
     startDate: implementationStart,
     endDate: implementationEnd,
-    progress: 25,
+    progress: 75,
     dependencies: ["task-3"],
   },
   {
@@ -81,7 +81,7 @@ export const TASK_MOCK_DATA: Task[] = [
     name: "Market Research",
     startDate: new Date(implementationStart.getTime() - 10 * MS_PER_DAY),
     endDate: new Date(implementationStart.getTime() - 7 * MS_PER_DAY),
-    progress: 80,
+    progress: 100,
     dependencies: [],
   },
   {
@@ -89,7 +89,7 @@ export const TASK_MOCK_DATA: Task[] = [
     name: "Competitive Analysis",
     startDate: new Date(implementationStart.getTime() - 6 * MS_PER_DAY),
     endDate: new Date(implementationStart.getTime() - 3 * MS_PER_DAY),
-    progress: 50,
+    progress: 100,
     dependencies: ["task-9"],
   },
 ] as const;

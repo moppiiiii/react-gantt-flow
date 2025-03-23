@@ -17,6 +17,7 @@ import {
 const GanttChart: React.FC<GanttChartProps> = ({
   task,
   todaysLineDisplay = false,
+  inazumaLineDisplay = false,
 }) => {
   const [minDate, maxDate] = useMemo(() => {
     const offset = 7;
@@ -122,20 +123,21 @@ const GanttChart: React.FC<GanttChartProps> = ({
         chartMaxDate={maxDate}
       />
 
+      {inazumaLineDisplay && (
+        <InazumaLine
+          tasks={tasksState}
+          dateToX={dateToX}
+          axisHeight={GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT}
+          barAreaHeight={GANTT_CHART_DEFAULT_VALUE.BAR_AREA_HEIGHT}
+        />
+      )}
+
       {todaysLineDisplay && (
-        <>
-          <InazumaLine
-            tasks={tasksState}
-            dateToX={dateToX}
-            axisHeight={GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT}
-            barAreaHeight={GANTT_CHART_DEFAULT_VALUE.BAR_AREA_HEIGHT}
-          />
-          <TodayLine
-            dateToX={dateToX}
-            axisHeight={GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT}
-            chartHeight={chartHeight}
-          />
-        </>
+        <TodayLine
+          dateToX={dateToX}
+          axisHeight={GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT}
+          chartHeight={chartHeight}
+        />
       )}
     </svg>
   );
