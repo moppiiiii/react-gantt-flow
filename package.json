@@ -54,7 +54,7 @@
     "eslint": "^9.17.0",
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.16",
-    "eslint-plugin-storybook": "^0.11.2",
+    "eslint-plugin-storybook": "^0.12.0",
     "globals": "^15.14.0",
     "knip": "^5.43.1",
     "lefthook": "^1.10.10",
