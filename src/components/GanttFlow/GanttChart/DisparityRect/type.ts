@@ -1,6 +1,6 @@
 import type { Task } from "../../../../types/task";
 
-export type InazumaLineProps = {
+export type DisparityRectProps = {
   /**
    * @description Tasks
    */

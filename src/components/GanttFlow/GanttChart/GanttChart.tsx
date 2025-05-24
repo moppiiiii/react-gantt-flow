@@ -5,7 +5,7 @@ import DaysRow from "./DaysRow";
 import MonthsRow from "./MonthsRow";
 import TaskBars from "./TaskBars";
 import TodayLine from "./TodayLine";
-import InazumaLine from "./InazumaLine";
+import DisparityRect from "./DisparityRect";
 import { getMinAndMaxDate } from "@/utils/get-min-date-and-max-date";
 import { getDateRange } from "@/utils/get-task-date-range";
 import type { GanttChartProps } from "./type";
@@ -99,6 +99,15 @@ const GanttChart: React.FC<GanttChartProps> = ({
         chartHeight={chartHeight}
       />
 
+      {inazumaLineDisplay && (
+        <DisparityRect
+          tasks={tasksState}
+          dateToX={dateToX}
+          axisHeight={GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT}
+          barAreaHeight={GANTT_CHART_DEFAULT_VALUE.BAR_AREA_HEIGHT}
+        />
+      )}
+
       <TaskBars
         tasks={tasksState}
         dateToX={dateToX}
@@ -122,15 +131,6 @@ const GanttChart: React.FC<GanttChartProps> = ({
         chartMinDate={minDate}
         chartMaxDate={maxDate}
       />
-
-      {inazumaLineDisplay && (
-        <InazumaLine
-          tasks={tasksState}
-          dateToX={dateToX}
-          axisHeight={GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT}
-          barAreaHeight={GANTT_CHART_DEFAULT_VALUE.BAR_AREA_HEIGHT}
-        />
-      )}
 
       {todaysLineDisplay && (
         <TodayLine
