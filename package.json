@@ -5,6 +5,7 @@
     "url": "https://github.com/moppiiiii/react-gantt-flow"
   },
   "version": "0.0.1-alpha.1",
+  "license": "MIT",
   "packageManager": "pnpm@10.6.3",
   "publishConfig": {
     "access": "public"
