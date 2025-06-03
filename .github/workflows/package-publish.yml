@@ -94,7 +94,7 @@ jobs:
 
       # GitHub Packages に公開
       - name: Publish 🎁
-        run: pnpm publish --provenance --access public
+        run: pnpm publish --provenance --access public --publish-branch "${GITHUB_REF#refs/heads/}" --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
