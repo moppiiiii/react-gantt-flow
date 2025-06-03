@@ -1,7 +1,9 @@
 {
-  "name": "react-gantt-flow",
-  "private": true,
+  "name": "@mopex/react-gantt-flow",
   "version": "0.0.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "files": ["dist"],
   "exports": {

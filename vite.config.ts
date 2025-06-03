@@ -26,8 +26,8 @@ export default defineConfig({
   build: {
     lib: {
       entry: resolve(".", "src/index.ts"),
-      name: "yokogawa-react-r2",
-      fileName: "yokogawa-react-r2",
+      name: "react-gantt-flow",
+      fileName: "react-gantt-flow",
     },
   },
 });

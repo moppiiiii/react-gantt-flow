@@ -1,10 +1,5 @@
 {
   "entry": ["src/index.ts"],
   "project": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.css"],
-  "ignore": ["**/*.d.ts", "./src/types/**/*", "./src/utils/**/*"],
-  "resolve": {
-    "alias": {
-      "@": "./src"
-    }
-  }
+  "ignore": ["**/*.d.ts", "./src/types/**/*", "./src/utils/**/*"]
 }
