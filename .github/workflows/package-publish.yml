@@ -33,6 +33,7 @@ jobs:
       contents: write
       packages: write
       pull-requests: write
+      id-token: write
 
     steps:
       # ブランチが release/ で始まることを確認し、release/ 以外の場合はエラーを出す
