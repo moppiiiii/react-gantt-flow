@@ -29,5 +29,14 @@ export default defineConfig({
       name: "react-gantt-flow",
       fileName: "react-gantt-flow",
     },
+    rollupOptions: {
+      external: ["react", "react-dom"],
+      output: {
+        globals: {
+          react: "React",
+          "react-dom": "ReactDOM",
+        },
+      },
+    },
   },
 });
