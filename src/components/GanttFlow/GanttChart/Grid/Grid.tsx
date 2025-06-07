@@ -24,7 +24,7 @@ const Grid: React.FC<GridProps> = memo(
 
     const renderWeekendColumns = () =>
       days.map((day, index) => {
-        const dayOfWeek = day.getDay(); // 0:日曜日, 6:土曜日
+        const dayOfWeek = day.getDay();
         if (dayOfWeek !== 0 && dayOfWeek !== 6) return null;
 
         const x = dateToX(day);
