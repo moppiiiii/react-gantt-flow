@@ -1,4 +1,4 @@
-import { useMemo, useState, useCallback, memo } from "react";
+import { useMemo, useState, useCallback, memo, useEffect } from "react";
 import { useTimeScale } from "@/hooks/useTimeScale";
 import { addDays } from "date-fns";
 import Grid from "./Grid";
@@ -9,11 +9,23 @@ import TodayLine from "./TodayLine";
 import DisparityRect from "./DisparityRect";
 import { getMinAndMaxDate } from "@/utils/get-min-date-and-max-date";
 import { getDateRange } from "@/utils/get-task-date-range";
+import type { Task } from "@/types/task";
 import type { GanttChartProps } from "./type";
 import {
+  END_DATE_OFFSET,
   GANTT_CHART_DEFAULT_VALUE,
   GANTT_FLOW_DEFAULT_TITLE,
+  START_DATE_OFFSET,
 } from "./constants";
+
+const calcRange = (tasks: Task[]): [Date, Date] => {
+  if (tasks.length === 0) {
+    const now = new Date();
+    return [addDays(now, -START_DATE_OFFSET), addDays(now, END_DATE_OFFSET)];
+  }
+  const { min, max } = getMinAndMaxDate(tasks);
+  return [addDays(min, -START_DATE_OFFSET), addDays(max, END_DATE_OFFSET)];
+};
 
 const GanttChart: React.FC<GanttChartProps> = ({
   task,
@@ -21,22 +33,19 @@ const GanttChart: React.FC<GanttChartProps> = ({
   disparityDisplay = false,
   onDateChange,
 }) => {
-  const [minDate, maxDate] = useMemo(() => {
-    const offset = 2;
-    if (task.length === 0) {
-      const now = new Date();
-      return [addDays(now, -offset), addDays(now, offset)];
-    }
-    const { min, max } = getMinAndMaxDate(task);
-    return [addDays(min, -offset), addDays(max, offset)];
+  const [tasksState, setTasksState] = useState(task);
+  const [range, setRange] = useState(calcRange(task));
+  const [minDate, maxDate] = range;
+
+  useEffect(() => {
+    setTasksState(task);
+    setRange(calcRange(task));
   }, [task]);
 
   const days = useMemo(
     () => getDateRange(minDate, maxDate),
     [minDate, maxDate],
   );
-
-  const [tasksState, setTasksState] = useState(task);
 
   const chartWidth = useMemo(
     () => days.length * GANTT_CHART_DEFAULT_VALUE.GRID_COLUMN_WIDTH,
@@ -61,8 +70,8 @@ const GanttChart: React.FC<GanttChartProps> = ({
       shouldNotifyExternal = true,
     ) => {
       // local state update
-      setTasksState((prev) =>
-        prev.map((t) =>
+      setTasksState((prev) => {
+        const updated = prev.map((t) =>
           t.id === taskId
             ? {
                 ...t,
@@ -71,8 +80,13 @@ const GanttChart: React.FC<GanttChartProps> = ({
                 ...(newProgress !== undefined ? { progress: newProgress } : {}),
               }
             : t,
-        ),
-      );
+        );
+
+        if (shouldNotifyExternal) {
+          setRange(calcRange(updated));
+        }
+        return updated;
+      });
 
       // notify external (user) only if the flag is enabled
       if (shouldNotifyExternal && onDateChange) {
