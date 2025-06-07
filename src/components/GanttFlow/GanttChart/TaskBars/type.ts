@@ -35,6 +35,7 @@ export type TaskBarsProps = {
     newStart: Date,
     newEnd: Date,
     newProgress?: number,
+    shouldNotifyExternal?: boolean,
   ) => void;
 };
 

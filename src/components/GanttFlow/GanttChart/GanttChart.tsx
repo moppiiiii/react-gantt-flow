@@ -53,7 +53,14 @@ const GanttChart: React.FC<GanttChartProps> = ({
   const { dateToX, xToDate } = useTimeScale(minDate, maxDate, chartWidth);
 
   const handleTaskUpdate = useCallback(
-    (taskId: string, newStart: Date, newEnd: Date, newProgress?: number) => {
+    (
+      taskId: string,
+      newStart: Date,
+      newEnd: Date,
+      newProgress?: number,
+      shouldNotifyExternal = true,
+    ) => {
+      // 内部ステートの更新は常に行う
       setTasksState((prev) =>
         prev.map((t) =>
           t.id === taskId
@@ -67,7 +74,8 @@ const GanttChart: React.FC<GanttChartProps> = ({
         ),
       );
 
-      if (onDateChange) {
+      // 外部 (ユーザ) への通知はフラグが有効な場合のみ
+      if (shouldNotifyExternal && onDateChange) {
         onDateChange(taskId, newStart, newEnd, newProgress);
       }
     },

@@ -113,6 +113,9 @@ const Bar: React.FC<BarProps> = ({
         }
 
         setLocalStartDate(newStartDate);
+
+        // ドラッグ中の内部更新（外部通知なし）
+        onDateChange(task.id, newStartDate, localEndDate, localProgress, false);
       }
       // (2) end date handle is dragging
       else if (dragType === "end") {
@@ -130,6 +133,9 @@ const Bar: React.FC<BarProps> = ({
         }
 
         setLocalEndDate(newEndDate);
+
+        // ドラッグ中の内部更新（外部通知なし）
+        onDateChange(task.id, localStartDate, newEndDate, localProgress, false);
       }
       // (3) progress handle is dragging
       else if (dragType === "progress") {
@@ -137,6 +143,9 @@ const Bar: React.FC<BarProps> = ({
         let newProgress = initialProgress + deltaProgress;
         newProgress = Math.max(0, Math.min(100, newProgress));
         setLocalProgress(newProgress);
+
+        // ドラッグ中の内部更新（外部通知なし）
+        onDateChange(task.id, localStartDate, localEndDate, newProgress, false);
       }
     };
 
@@ -149,9 +158,15 @@ const Bar: React.FC<BarProps> = ({
       // ドラッグ終了
       setDragType(null);
 
-      // ドラッグ操作が行われていた場合のみ最新値でコールバック
-      if (wasDragging && onDateChange) {
-        onDateChange(task.id, localStartDate, localEndDate, localProgress);
+      if (wasDragging) {
+        // ドラッグ終了時に外部へ通知
+        onDateChange(
+          task.id,
+          localStartDate,
+          localEndDate,
+          localProgress,
+          true,
+        );
       }
     };
 
