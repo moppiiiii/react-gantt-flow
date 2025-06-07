@@ -17,7 +17,7 @@ import {
 const GanttChart: React.FC<GanttChartProps> = ({
   task,
   todaysLineDisplay = false,
-  inazumaLineDisplay = false,
+  disparityDisplay = false,
 }) => {
   const [minDate, maxDate] = useMemo(() => {
     const offset = 7;
@@ -99,7 +99,7 @@ const GanttChart: React.FC<GanttChartProps> = ({
         chartHeight={chartHeight}
       />
 
-      {inazumaLineDisplay && (
+      {disparityDisplay && (
         <DisparityRect
           tasks={tasksState}
           dateToX={dateToX}
