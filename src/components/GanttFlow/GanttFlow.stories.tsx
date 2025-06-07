@@ -36,6 +36,6 @@ export const InazumaLineDisplay: Story = {
   args: {
     task: TASK_MOCK_DATA,
     todaysLineDisplay: true,
-    inazumaLineDisplay: true,
+    disparityDisplay: true,
   },
 };
