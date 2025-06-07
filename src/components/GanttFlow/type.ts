@@ -21,9 +21,9 @@ export type GanttFlowProps = {
    */
   todaysLineDisplay?: boolean;
   /**
-   * @description Inazuma line display
+   * @description Disparity display
    *
    * @default false
    */
-  inazumaLineDisplay?: boolean;
+  disparityDisplay?: boolean;
 };
