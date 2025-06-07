@@ -1,17 +1,19 @@
 {
   "name": "@mopex/react-gantt-flow",
+  "version": "0.0.1-alpha.5",
+  "author": "moppiiiii",
+  "description": "A lightweight and high-performance React (TypeScript) based Gantt chart component.",
+  "packageManager": "pnpm@10.6.3",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/moppiiiii/react-gantt-flow"
   },
-  "version": "0.0.1-alpha.5",
-  "license": "MIT",
-  "packageManager": "pnpm@10.6.3",
   "publishConfig": {
     "access": "public"
   },
+  "keywords": ["react", "gantt", "chart", "component"],
   "type": "module",
-  "files": ["dist"],
   "exports": {
     ".": {
       "import": "./dist/react-gantt-flow.js",
@@ -20,6 +22,7 @@
   },
   "module": "./dist/react-gantt-flow.js",
   "main": "./dist/react-gantt-flow.cjs",
+  "files": ["dist", "images", "README.md"],
   "scripts": {
     "prepare": "lefthook install",
     "dev": "vite",
