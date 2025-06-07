@@ -20,6 +20,7 @@ export type BarProps = {
     newStart: Date,
     newEnd: Date,
     newProgress?: number,
+    shouldNotifyExternal?: boolean,
   ) => void;
   /** The start boundary of the chart's date range. */
   chartMinDate: Date;

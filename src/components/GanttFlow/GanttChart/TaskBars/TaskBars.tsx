@@ -20,8 +20,9 @@ const TaskBars: React.FC<TaskBarsProps> = memo(
       newStart: Date,
       newEnd: Date,
       newProgress?: number,
+      shouldNotifyExternal = true,
     ) => {
-      onTaskUpdate(taskId, newStart, newEnd, newProgress);
+      onTaskUpdate(taskId, newStart, newEnd, newProgress, shouldNotifyExternal);
     };
 
     return (
