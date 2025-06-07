@@ -2,10 +2,10 @@ import { useMemo } from "react";
 import { GANTT_CHART_DEFAULT_VALUE } from "@/components/GanttFlow/GanttChart/constants";
 
 /**
- * @description チャートの時間スケールを扱う共通フック
- * @param minDate 表示範囲の開始日
- * @param maxDate 表示範囲の終了日
- * @param chartWidth SVG 全体幅
+ * @description common hook for handling the time scale of the chart
+ * @param minDate start date of the display range
+ * @param maxDate end date of the display range
+ * @param chartWidth total width of the SVG
  */
 export const useTimeScale = (
   minDate: Date,

@@ -19,10 +19,10 @@ const TodayLine: React.FC<TodayLineProps> = ({
         strokeWidth={GANTT_CHART_DEFAULT_VALUE.GRID_STROKE_WIDTH}
       />
 
-      {/* 中心の赤丸（静止） */}
+      {/* center red circle (static) */}
       <circle cx={x} cy={axisHeight} r={5} fill="red" />
 
-      {/* 波紋用の円（拡大 + フェードアウトするアニメーション） */}
+      {/* ripple circle (expand + fade out animation) */}
       <circle cx={x} cy={axisHeight} fill="none" stroke="red" strokeWidth={2}>
         <animate
           attributeName="r"
