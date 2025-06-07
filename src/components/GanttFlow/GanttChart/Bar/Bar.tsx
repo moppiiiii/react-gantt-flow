@@ -30,7 +30,7 @@ const Bar: React.FC<BarProps> = ({
     null,
   );
 
-  // ドラッグ開始時の座標／値を保持する Ref
+  // drag start coordinates / values
   const dragDataRef = useRef({
     initialMouseX: 0,
     initialStartX: 0,
@@ -114,7 +114,7 @@ const Bar: React.FC<BarProps> = ({
 
         setLocalStartDate(newStartDate);
 
-        // ドラッグ中の内部更新（外部通知なし）
+        // internal update during dragging (no external notification)
         onDateChange(task.id, newStartDate, localEndDate, localProgress, false);
       }
       // (2) end date handle is dragging
@@ -155,11 +155,11 @@ const Bar: React.FC<BarProps> = ({
     const handleMouseUp = () => {
       const wasDragging = dragType !== null;
 
-      // ドラッグ終了
+      // drag end
       setDragType(null);
 
       if (wasDragging) {
-        // ドラッグ終了時に外部へ通知
+        // notify external when drag ends
         onDateChange(
           task.id,
           localStartDate,
