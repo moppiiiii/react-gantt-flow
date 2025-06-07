@@ -25,15 +25,20 @@ const Bar: React.FC<BarProps> = ({
 
   const [isHovered, setIsHovered] = useState(false);
 
-  const [draggingStart, setDraggingStart] = useState(false);
-  const [draggingEnd, setDraggingEnd] = useState(false);
-  const [draggingProgress, setDraggingProgress] = useState(false);
+  // Drag target type (null = not dragging)
+  const [dragType, setDragType] = useState<"start" | "end" | "progress" | null>(
+    null,
+  );
 
-  const [initialMouseX, setInitialMouseX] = useState(0);
+  // ドラッグ開始時の座標／値を保持する Ref
+  const dragDataRef = useRef({
+    initialMouseX: 0,
+    initialStartX: 0,
+    initialEndX: 0,
+    initialProgress: task.progress,
+  });
 
-  const [initialStartX, setInitialStartX] = useState(0);
-  const [initialEndX, setInitialEndX] = useState(0);
-  const [initialProgress, setInitialProgress] = useState(task.progress);
+  // Bar name display position calculation
   const [displayOutside, setDisplayOutside] = useState(false);
   const textRef = useRef<SVGTextElement>(null);
 
@@ -56,14 +61,14 @@ const Bar: React.FC<BarProps> = ({
     event.stopPropagation();
     event.preventDefault();
 
-    setInitialMouseX(event.clientX);
+    dragDataRef.current.initialMouseX = event.clientX;
 
     if (type === "start") {
-      setDraggingStart(true);
-      setInitialStartX(startX);
+      dragDataRef.current.initialStartX = startX;
+      setDragType("start");
     } else {
-      setDraggingEnd(true);
-      setInitialEndX(endX);
+      dragDataRef.current.initialEndX = endX;
+      setDragType("end");
     }
   };
 
@@ -76,9 +81,9 @@ const Bar: React.FC<BarProps> = ({
   ) => {
     event.stopPropagation();
     event.preventDefault();
-    setDraggingProgress(true);
-    setInitialMouseX(event.clientX);
-    setInitialProgress(localProgress);
+    dragDataRef.current.initialMouseX = event.clientX;
+    dragDataRef.current.initialProgress = localProgress;
+    setDragType("progress");
   };
 
   useEffect(() => {
@@ -87,10 +92,13 @@ const Bar: React.FC<BarProps> = ({
      * @param event
      */
     const handleMouseMove = (event: MouseEvent) => {
+      const { initialMouseX, initialStartX, initialEndX, initialProgress } =
+        dragDataRef.current;
+
       const deltaX = event.clientX - initialMouseX;
 
       // (1) start date handle is dragging
-      if (draggingStart) {
+      if (dragType === "start") {
         const GRID_WIDTH = GANTT_CHART_DEFAULT_VALUE.GRID_COLUMN_WIDTH;
         const daysDelta = Math.round(deltaX / GRID_WIDTH);
         const baseStartDate = xToDate(initialStartX);
@@ -105,10 +113,9 @@ const Bar: React.FC<BarProps> = ({
         }
 
         setLocalStartDate(newStartDate);
-        onDateChange?.(task.id, newStartDate, localEndDate);
       }
       // (2) end date handle is dragging
-      else if (draggingEnd) {
+      else if (dragType === "end") {
         const GRID_WIDTH = GANTT_CHART_DEFAULT_VALUE.GRID_COLUMN_WIDTH;
         const daysDelta = Math.round(deltaX / GRID_WIDTH);
         const baseEndDate = xToDate(initialEndX);
@@ -123,17 +130,13 @@ const Bar: React.FC<BarProps> = ({
         }
 
         setLocalEndDate(newEndDate);
-        onDateChange?.(task.id, localStartDate, newEndDate);
       }
       // (3) progress handle is dragging
-      else if (draggingProgress) {
+      else if (dragType === "progress") {
         const deltaProgress = (deltaX / width) * 100;
         let newProgress = initialProgress + deltaProgress;
         newProgress = Math.max(0, Math.min(100, newProgress));
         setLocalProgress(newProgress);
-        if (onDateChange) {
-          onDateChange(task.id, localStartDate, localEndDate, newProgress);
-        }
       }
     };
 
@@ -141,12 +144,18 @@ const Bar: React.FC<BarProps> = ({
      * mouse up handler called when dragging ends
      */
     const handleMouseUp = () => {
-      setDraggingStart(false);
-      setDraggingEnd(false);
-      setDraggingProgress(false);
+      const wasDragging = dragType !== null;
+
+      // ドラッグ終了
+      setDragType(null);
+
+      // ドラッグ操作が行われていた場合のみ最新値でコールバック
+      if (wasDragging && onDateChange) {
+        onDateChange(task.id, localStartDate, localEndDate, localProgress);
+      }
     };
 
-    if (draggingStart || draggingEnd || draggingProgress) {
+    if (dragType !== null) {
       window.addEventListener("mousemove", handleMouseMove);
       window.addEventListener("mouseup", handleMouseUp);
     } else {
@@ -161,15 +170,10 @@ const Bar: React.FC<BarProps> = ({
     };
   }, [
     task.id,
-    draggingStart,
-    draggingEnd,
-    draggingProgress,
-    initialMouseX,
-    initialStartX,
-    initialEndX,
-    initialProgress,
+    dragType,
     localEndDate,
     localStartDate,
+    localProgress,
     width,
     xToDate,
     onDateChange,

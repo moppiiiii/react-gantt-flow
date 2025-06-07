@@ -31,4 +31,14 @@ export type GanttFlowProps = {
    * @default false
    */
   disparityDisplay?: boolean;
+  /**
+   * Callback function invoked when a task's dates or progress is updated.
+   * Parameters include taskId, new start date, new end date, and an optional new progress.
+   */
+  onChange?: (
+    taskId: string,
+    newStartDate: Date,
+    newEndDate: Date,
+    newProgress?: number,
+  ) => void;
 };
