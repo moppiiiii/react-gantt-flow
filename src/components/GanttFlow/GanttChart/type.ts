@@ -22,4 +22,14 @@ export type GanttChartProps = {
    * @default false
    */
   todaysLineDisplay?: boolean;
+  /**
+   * Callback function invoked when a task's dates or progress is updated.
+   * Parameters include taskId, new start date, new end date, and an optional new progress.
+   */
+  onDateChange?: (
+    taskId: string,
+    newStartDate: Date,
+    newEndDate: Date,
+    newProgress?: number,
+  ) => void;
 };

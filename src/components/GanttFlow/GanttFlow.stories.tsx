@@ -8,6 +8,12 @@ const meta: Meta<typeof GanttFlow> = {
   title: "Components/GanttFlow",
   component: GanttFlow,
   tags: ["autodocs"],
+  parameters: {
+    actions: { argTypesRegex: "^on.*" },
+  },
+  argTypes: {
+    onChange: { action: "onChange" },
+  },
 } satisfies Meta<typeof GanttFlow>;
 
 export default meta;

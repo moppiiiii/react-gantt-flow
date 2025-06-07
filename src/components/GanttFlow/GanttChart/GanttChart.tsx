@@ -19,6 +19,7 @@ const GanttChart: React.FC<GanttChartProps> = ({
   task,
   todaysLineDisplay = false,
   disparityDisplay = false,
+  onDateChange,
 }) => {
   const [minDate, maxDate] = useMemo(() => {
     const offset = 7;
@@ -65,8 +66,12 @@ const GanttChart: React.FC<GanttChartProps> = ({
             : t,
         ),
       );
+
+      if (onDateChange) {
+        onDateChange(taskId, newStart, newEnd, newProgress);
+      }
     },
-    [],
+    [onDateChange],
   );
 
   return (
