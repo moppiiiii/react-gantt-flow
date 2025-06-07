@@ -1,0 +1,13 @@
+<svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景枠 -->
+  <rect x="2" y="2" width="44" height="44" rx="4" fill="none" stroke="#444" stroke-width="2"/>
+  <!-- ステップ状バー -->
+  <rect x="8"  y="32" width="8"  height="6" rx="1" fill="#222"/>
+  <rect x="18" y="26" width="8"  height="6" rx="1" fill="#222"/>
+  <rect x="28" y="20" width="8"  height="6" rx="1" fill="#222"/>
+  <rect x="8"  y="24" width="4"  height="6" rx="1" fill="#AAA"/>
+  <rect x="18" y="18" width="4"  height="6" rx="1" fill="#AAA"/>
+  <rect x="28" y="12" width="4"  height="6" rx="1" fill="#AAA"/>
+  <!-- 下軸線 -->
+  <line x1="8" y1="38" x2="40" y2="38" stroke="#CCC" stroke-width="1"/>
+</svg>
