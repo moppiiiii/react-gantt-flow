@@ -1,4 +1,5 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useCallback, memo } from "react";
+import { useTimeScale } from "@/hooks/useTimeScale";
 import { addDays } from "date-fns";
 import Grid from "./Grid";
 import DaysRow from "./DaysRow";
@@ -34,44 +35,39 @@ const GanttChart: React.FC<GanttChartProps> = ({
     [minDate, maxDate],
   );
 
-  // タスク状態を GanttChart 内で管理
   const [tasksState, setTasksState] = useState(task);
 
-  const chartWidth = days.length * GANTT_CHART_DEFAULT_VALUE.GRID_COLUMN_WIDTH;
+  const chartWidth = useMemo(
+    () => days.length * GANTT_CHART_DEFAULT_VALUE.GRID_COLUMN_WIDTH,
+    [days.length],
+  );
 
-  const chartHeight =
-    tasksState.length * GANTT_CHART_DEFAULT_VALUE.BAR_AREA_HEIGHT +
-    GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT;
+  const chartHeight = useMemo(
+    () =>
+      tasksState.length * GANTT_CHART_DEFAULT_VALUE.BAR_AREA_HEIGHT +
+      GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT,
+    [tasksState.length],
+  );
 
-  const dateToX = (date: Date): number => {
-    const totalDuration = maxDate.getTime() - minDate.getTime();
-    const currentOffset = date.getTime() - minDate.getTime();
-    if (totalDuration === 0) return 0;
+  const { dateToX, xToDate } = useTimeScale(minDate, maxDate, chartWidth);
 
-    return (
-      GANTT_CHART_DEFAULT_VALUE.LEFT_MARGIN +
-      (currentOffset / totalDuration) *
-        (chartWidth - GANTT_CHART_DEFAULT_VALUE.RIGHT_MARGIN)
-    );
-  };
-
-  function xToDate(x: number): Date {
-    const totalDuration = maxDate.getTime() - minDate.getTime();
-    if (totalDuration === 0) {
-      return new Date(minDate);
-    }
-
-    const usableWidth = chartWidth - GANTT_CHART_DEFAULT_VALUE.RIGHT_MARGIN;
-
-    const adjustedX = x - GANTT_CHART_DEFAULT_VALUE.LEFT_MARGIN;
-
-    const fraction = adjustedX / usableWidth;
-
-    const offsetMs = fraction * totalDuration;
-    const dateTime = minDate.getTime() + offsetMs;
-
-    return new Date(dateTime);
-  }
+  const handleTaskUpdate = useCallback(
+    (taskId: string, newStart: Date, newEnd: Date, newProgress?: number) => {
+      setTasksState((prev) =>
+        prev.map((t) =>
+          t.id === taskId
+            ? {
+                ...t,
+                startDate: newStart,
+                endDate: newEnd,
+                ...(newProgress !== undefined ? { progress: newProgress } : {}),
+              }
+            : t,
+        ),
+      );
+    },
+    [],
+  );
 
   return (
     <svg width={chartWidth} height={chartHeight}>
@@ -112,22 +108,7 @@ const GanttChart: React.FC<GanttChartProps> = ({
         tasks={tasksState}
         dateToX={dateToX}
         xToDate={xToDate}
-        onTaskUpdate={(taskId, newStart, newEnd, newProgress) =>
-          setTasksState((prev) =>
-            prev.map((t) =>
-              t.id === taskId
-                ? {
-                    ...t,
-                    startDate: newStart,
-                    endDate: newEnd,
-                    ...(newProgress !== undefined
-                      ? { progress: newProgress }
-                      : {}),
-                  }
-                : t,
-            ),
-          )
-        }
+        onTaskUpdate={handleTaskUpdate}
         chartMinDate={minDate}
         chartMaxDate={maxDate}
       />
@@ -143,4 +124,4 @@ const GanttChart: React.FC<GanttChartProps> = ({
   );
 };
 
-export default GanttChart;
+export default memo(GanttChart);
