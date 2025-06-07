@@ -22,7 +22,7 @@ const GanttChart: React.FC<GanttChartProps> = ({
   onDateChange,
 }) => {
   const [minDate, maxDate] = useMemo(() => {
-    const offset = 7;
+    const offset = 2;
     if (task.length === 0) {
       const now = new Date();
       return [addDays(now, -offset), addDays(now, offset)];
