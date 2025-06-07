@@ -8,7 +8,7 @@ const GanttChart = lazy(() => import("./GanttChart"));
 
 const GanttFlow: React.FC<GanttFlowProps> = memo(
   ({
-    groupAreaDisplay = false,
+    // groupAreaDisplay = false,
     task,
     todaysLineDisplay = false,
     disparityDisplay = false,
@@ -19,9 +19,9 @@ const GanttFlow: React.FC<GanttFlowProps> = memo(
 
     return (
       <div className={styles["gantt-flow-container"]}>
-        {groupAreaDisplay && (
+        {/* {groupAreaDisplay && (
           <div className={styles["task-grouping-area"]}>Grouping Area</div>
-        )}
+        )} */}
         <div className={styles["gantt-flow-chart-container"]}>
           <Suspense fallback={<div>Loading chart...</div>}>
             <GanttChart
