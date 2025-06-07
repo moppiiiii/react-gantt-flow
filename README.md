@@ -1,50 +1,125 @@
-# React + TypeScript + Vite
+# React Gantt Flow
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A lightweight and high-performance **React (TypeScript)** based Gantt chart component.  
+It achieves excellent rendering performance with SVG and allows intuitive schedule editing with drag & drop.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Features
 
-## Expanding the ESLint configuration
+- **Drag & Resize** to modify start/end dates
+- Update the progress bar using **slider control**
+- Automatic rendering of **dependency arrows**
+- Toggle **today's line** and **planned vs actual disparity** display with a single click
+- Type-safe **TypeScript** API
+- No dependencies except for `react` and `date-fns`
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+---
 
-- Configure the top-level `parserOptions` property like this:
+## 💿 Installation
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```bash
+# pnpm
+pnpm add @mopex/react-gantt-flow
+
+# npm
+npm install @mopex/react-gantt-flow
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+> React 19 or higher is required as a peer dependency.
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+---
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
+## ⚡ Quick Start
+
+```tsx
+import { useState } from "react";
+import GanttFlow from "@mopex/react-gantt-flow";
+
+const initialTasks = [
+  {
+    id: "task-001",
+    name: "Design",
+    startDate: new Date(2025, 0, 1),
+    endDate: new Date(2025, 0, 7),
+    progress: 30,
+    dependencies: [],
   },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
+  {
+    id: "task-002",
+    name: "Implementation",
+    startDate: new Date(2025, 0, 8),
+    endDate: new Date(2025, 0, 21),
+    progress: 0,
+    dependencies: ["task-001"],
   },
-})
+];
+
+export default function App() {
+  const [tasks, setTasks] = useState(initialTasks);
+
+  return (
+    <GanttFlow
+      task={tasks}
+      todaysLineDisplay
+      disparityDisplay
+      onChange={(id, newStart, newEnd, newProgress) => {
+        setTasks((prev) =>
+          prev.map((t) =>
+            t.id === id
+              ? {
+                  ...t,
+                  startDate: newStart,
+                  endDate: newEnd,
+                  progress: newProgress ?? t.progress,
+                }
+              : t,
+          ),
+        );
+      }}
+    />
+  );
+}
 ```
+
+---
+
+## 📚 API Reference
+
+### `<GanttFlow />` Props
+
+| Name                | Type                                     | Default   | Description                                               |
+| ------------------- | ---------------------------------------- | --------- | --------------------------------------------------------- |
+| `task`              | `Task[]`                                 | —         | Array of tasks to display                                 |
+| `todaysLineDisplay` | `boolean`                                | `false`   | Display a vertical line indicating today                  |
+| `disparityDisplay`  | `boolean`                                | `false`   | Render disparity between planned and actual as a rectangle  |
+| `onChange`          | `(taskId, newStartDate, newEndDate, newProgress?) => void` | — | Callback invoked when a task is updated                    |
+
+### `Task` Type
+
+```ts
+type Task = {
+  id: string;
+  name: string;
+  startDate: Date;
+  endDate: Date;
+  progress: number; // 0 ~ 100
+  dependencies: string[];
+};
+```
+
+---
+
+## 🛠️ Development
+
+```bash
+pnpm install       # Install dependencies
+pnpm storybook     # View the UI using Storybook
+pnpm build         # Build the library (generate dist)
+```
+
+---
+
+## 📄 License
+
+MIT License
