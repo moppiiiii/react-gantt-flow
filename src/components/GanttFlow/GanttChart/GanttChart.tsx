@@ -48,7 +48,9 @@ const GanttChart: React.FC<GanttChartProps> = ({
   );
 
   const chartWidth = useMemo(
-    () => days.length * GANTT_CHART_DEFAULT_VALUE.GRID_COLUMN_WIDTH,
+    () =>
+      GANTT_CHART_DEFAULT_VALUE.LEFT_MARGIN +
+      days.length * GANTT_CHART_DEFAULT_VALUE.GRID_COLUMN_WIDTH,
     [days.length],
   );
 
