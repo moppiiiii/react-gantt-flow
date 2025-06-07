@@ -17,3 +17,13 @@ export const GANTT_CHART_DEFAULT_VALUE = {
   AXIS_HEIGHT: 50,
   BAR_ARROW_STROKE_WIDTH: 1.5,
 } as const;
+
+/**
+ * @description Start date offset
+ */
+export const START_DATE_OFFSET = 2;
+
+/**
+ * @description End date offset
+ */
+export const END_DATE_OFFSET = 30;
