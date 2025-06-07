@@ -8,9 +8,6 @@ const meta: Meta<typeof GanttFlow> = {
   title: "Components/GanttFlow",
   component: GanttFlow,
   tags: ["autodocs"],
-  args: {
-    task: TASK_MOCK_DATA,
-  },
 } satisfies Meta<typeof GanttFlow>;
 
 export default meta;

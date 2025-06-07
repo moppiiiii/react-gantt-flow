@@ -1,10 +1,10 @@
+import { memo } from "react";
 import type { DaysRowProps } from "./type";
-
 import styles from "./DaysRow.module.css";
 
 const DaysRow: React.FC<
   DaysRowProps & { axisHeight: number; yOffset?: number }
-> = ({ days, dateToX, axisHeight, yOffset = 0 }) => {
+> = memo(({ days, dateToX, axisHeight, yOffset = 0 }) => {
   return (
     <g transform={`translate(0, ${yOffset})`}>
       {days.map((day) => {
@@ -25,6 +25,6 @@ const DaysRow: React.FC<
       })}
     </g>
   );
-};
+});
 
-export default DaysRow;
+export default memo(DaysRow);

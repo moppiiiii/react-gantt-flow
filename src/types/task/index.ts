@@ -1,29 +1,32 @@
 /**
- * @description Task type
+ * Task Object Definition.
+ *
+ * This type defines a task with key properties including a unique identifier, a descriptive name,
+ * start and end dates, a progress percentage (ranging from 0 to 100), and an array of dependency IDs.
  */
 export type Task = {
   /**
-   * @description Task ID
+   * Unique identifier for the task (e.g., "task-001").
    */
   id: string;
   /**
-   * @description Task name
+   * Name of the task summarizing the work; for example, "Design Review".
    */
   name: string;
   /**
-   * @description Task start date
+   * The start date of the task used for scheduling.
    */
   startDate: Date;
   /**
-   * @description Task end date
+   * The expected end date which helps in deadline management.
    */
   endDate: Date;
   /**
-   * @description Task progress
+   * Progress of the task expressed as a percentage ranging from 0 to 100.
    */
   progress: number;
   /**
-   * @description Task dependencies
+   * Array of task IDs that this task depends on; for example, ["task-002", "task-003"].
    */
   dependencies: string[];
 };
