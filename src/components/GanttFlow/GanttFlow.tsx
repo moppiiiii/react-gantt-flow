@@ -2,13 +2,14 @@ import { Suspense, lazy, memo, useMemo } from "react";
 import { getNormalizeTaskDate } from "@/utils/get-normalize-task-date";
 import type { GanttFlowProps } from "./type";
 import styles from "./GanttFlow.module.css";
+import TaskList from "./TaskList";
 
 // Lazy load GanttChart to enable code splitting
 const GanttChart = lazy(() => import("./GanttChart"));
 
 const GanttFlow: React.FC<GanttFlowProps> = memo(
   ({
-    // groupAreaDisplay = false,
+    taskListDisplay = false,
     task,
     todaysLineDisplay = false,
     disparityDisplay = false,
@@ -19,19 +20,17 @@ const GanttFlow: React.FC<GanttFlowProps> = memo(
 
     return (
       <div className={styles["gantt-flow-container"]}>
-        {/* {groupAreaDisplay && (
-          <div className={styles["task-grouping-area"]}>Grouping Area</div>
-        )} */}
-        <div className={styles["gantt-flow-chart-container"]}>
-          <Suspense fallback={<div>Loading chart...</div>}>
+        <Suspense fallback={<div>Loading chart...</div>}>
+          {taskListDisplay && <TaskList task={normalizedTasks} />}
+          <div className={styles["gantt-flow-chart-container"]}>
             <GanttChart
               task={normalizedTasks}
               todaysLineDisplay={todaysLineDisplay}
               disparityDisplay={disparityDisplay}
               onDateChange={onChange}
             />
-          </Suspense>
-        </div>
+          </div>
+        </Suspense>
       </div>
     );
   },

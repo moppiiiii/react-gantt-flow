@@ -1,0 +1,18 @@
+.task-list-container {
+  min-width: 400px;
+  border: 1px solid #ededed;
+}
+
+.task-list-row {
+  box-sizing: border-box;
+  display: grid;
+  align-items: center;
+  height: 50px;
+  grid-template-columns: 1.8fr 1fr 1fr;
+  border-bottom: 1px solid #ededed;
+}
+
+.task-list-row-item {
+  font-size: 12px;
+  padding: 8px;
+}
