@@ -25,6 +25,13 @@ export const Default: Story = {
   },
 };
 
+export const TaskListDisplay: Story = {
+  args: {
+    task: TASK_MOCK_DATA,
+    taskListDisplay: true,
+  },
+};
+
 export const TodaysLineDisplay: Story = {
   args: {
     task: TASK_MOCK_DATA,
@@ -32,7 +39,7 @@ export const TodaysLineDisplay: Story = {
   },
 };
 
-export const InazumaLineDisplay: Story = {
+export const DisparityDisplay: Story = {
   args: {
     task: TASK_MOCK_DATA,
     todaysLineDisplay: true,

@@ -60,7 +60,7 @@ const MonthsRow: React.FC<MonthsRowProps> = memo(
               <text
                 className={styles["months-text"]}
                 x={xStart - 5}
-                y={axisHeight / 2}
+                y={axisHeight / 1.3}
                 textAnchor="start"
               >
                 {group.month}

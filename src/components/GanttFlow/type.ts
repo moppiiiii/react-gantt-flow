@@ -13,7 +13,7 @@ export type GanttFlowProps = {
    * This option facilitates category-based organization in the Gantt chart.
    * @default false
    */
-  groupAreaDisplay?: boolean;
+  taskListDisplay?: boolean;
   /**
    * An array of task objects conforming to the Task type.
    * Each task includes essential details like title, start and end dates, progress, and dependencies.
