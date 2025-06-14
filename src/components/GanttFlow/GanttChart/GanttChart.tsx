@@ -28,9 +28,9 @@ const calcRange = (tasks: Task[]): [Date, Date] => {
 };
 
 const GanttChart: React.FC<GanttChartProps> = ({
+  disparityDisplay = false,
   task,
   todaysLineDisplay = false,
-  disparityDisplay = false,
   onDateChange,
 }) => {
   const [tasksState, setTasksState] = useState(task);

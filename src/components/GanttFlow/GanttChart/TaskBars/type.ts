@@ -8,6 +8,14 @@ import type { Task } from "@/types/task";
  */
 export type TaskBarsProps = {
   /**
+   * The end boundary of the chart's date range.
+   */
+  chartMaxDate: Date;
+  /**
+   * The start boundary of the chart's date range.
+   */
+  chartMinDate: Date;
+  /**
    * An array of task objects conforming to the Task type.
    */
   tasks: Task[];
@@ -19,14 +27,6 @@ export type TaskBarsProps = {
    * Function to convert an x-coordinate value back into a Date object.
    */
   xToDate: (x: number) => Date;
-  /**
-   * The start boundary of the chart's date range.
-   */
-  chartMinDate: Date;
-  /**
-   * The end boundary of the chart's date range.
-   */
-  chartMaxDate: Date;
   /**
    * Callback function invoked when a task is updated. Parameters include taskId, new start date, new end date, and an optional new progress.
    */
@@ -46,6 +46,10 @@ export type TaskBarsProps = {
  */
 export type TaskBarsPosition = {
   /**
+   * The width of the task bar.
+   */
+  width: number;
+  /**
    * The x-coordinate of the task bar.
    */
   x: number;
@@ -53,8 +57,4 @@ export type TaskBarsPosition = {
    * The y-coordinate of the task bar.
    */
   y: number;
-  /**
-   * The width of the task bar.
-   */
-  width: number;
 };

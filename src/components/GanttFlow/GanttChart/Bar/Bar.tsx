@@ -256,7 +256,6 @@ const Bar: React.FC<BarProps> = ({
             type="start"
             x={startX + 2}
             y={y + 15}
-            width={width}
             onMouseDownDateHandle={onMouseDownDateHandle}
           />
 
@@ -275,7 +274,6 @@ const Bar: React.FC<BarProps> = ({
             type="end"
             x={endX - 7}
             y={y + 15}
-            width={width}
             onMouseDownDateHandle={onMouseDownDateHandle}
           />
         </>

@@ -13,6 +13,10 @@ export type DaysRowProps = {
    */
   days: Date[];
   /**
+   * The y-offset of the days row.
+   */
+  yOffset?: number;
+  /**
    * Function to convert a Date object to its x-coordinate on the chart.
    */
   dateToX: (date: Date) => number;

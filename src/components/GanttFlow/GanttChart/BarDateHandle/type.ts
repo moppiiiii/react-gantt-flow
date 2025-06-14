@@ -10,6 +10,10 @@ export type BarDateHandleProps = {
    */
   type: "start" | "end";
   /**
+   * The width of the handle.
+   */
+  // width: number;
+  /**
    * The x-coordinate position of the handle.
    */
   x: number;
@@ -17,10 +21,6 @@ export type BarDateHandleProps = {
    * The y-coordinate position of the handle.
    */
   y: number;
-  /**
-   * The width of the handle.
-   */
-  width: number;
   /**
    * Event handler triggered when the date handle is pressed, receiving the type and the mouse event.
    */

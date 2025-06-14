@@ -7,13 +7,21 @@ import type { Task } from "@/types/task";
  */
 export type BarProps = {
   /**
-   * The task object containing details for the specific bar in the Gantt chart.
+   * The end boundary of the chart's date range.
    */
-  task: Task;
+  chartMaxDate: Date;
+  /**
+   * The start boundary of the chart's date range.
+   */
+  chartMinDate: Date;
   /**
    * The zero-based index of the task bar.
    */
   index: number;
+  /**
+   * The task object containing details for the specific bar in the Gantt chart.
+   */
+  task: Task;
   /**
    * Function to convert a Date object to its corresponding x-coordinate value.
    */
@@ -32,12 +40,4 @@ export type BarProps = {
     newProgress?: number,
     shouldNotifyExternal?: boolean,
   ) => void;
-  /**
-   * The start boundary of the chart's date range.
-   */
-  chartMinDate: Date;
-  /**
-   * The end boundary of the chart's date range.
-   */
-  chartMaxDate: Date;
 };

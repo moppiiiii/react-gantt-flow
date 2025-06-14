@@ -9,14 +9,14 @@ import type { Task } from "@/types/task";
  */
 export type GanttChartProps = {
   /**
-   * An array of task objects conforming to the Task type, representing the tasks displayed in the chart.
-   */
-  task: Task[];
-  /**
    * A boolean flag that, if true, activates visual indicators to highlight discrepancies between planned and actual timelines.
    * @default false
    */
   disparityDisplay?: boolean;
+  /**
+   * An array of task objects conforming to the Task type, representing the tasks displayed in the chart.
+   */
+  task: Task[];
   /**
    * A boolean flag that, if true, displays a vertical marker denoting today's date on the Gantt chart.
    * @default false
