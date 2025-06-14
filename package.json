@@ -3,7 +3,7 @@
   "version": "0.0.1-alpha.12",
   "author": "moppiiiii",
   "description": "A lightweight and high-performance React (TypeScript) based Gantt chart component.",
-  "packageManager": "pnpm@10.6.3",
+  "packageManager": "pnpm@10.12.1",
   "license": "MIT",
   "repository": {
     "type": "git",
