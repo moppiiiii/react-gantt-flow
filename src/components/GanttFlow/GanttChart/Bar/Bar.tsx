@@ -25,22 +25,31 @@ const Bar: React.FC<BarProps> = ({
 
   const [isHovered, setIsHovered] = useState(false);
 
-  const [draggingStart, setDraggingStart] = useState(false);
-  const [draggingEnd, setDraggingEnd] = useState(false);
-  const [draggingProgress, setDraggingProgress] = useState(false);
+  // Drag target type (null = not dragging)
+  const [dragType, setDragType] = useState<"start" | "end" | "progress" | null>(
+    null,
+  );
 
-  const [initialMouseX, setInitialMouseX] = useState(0);
-
-  const [initialStartX, setInitialStartX] = useState(0);
-  const [initialEndX, setInitialEndX] = useState(0);
-  const [initialProgress, setInitialProgress] = useState(task.progress);
+  // Bar name display position calculation
   const [displayOutside, setDisplayOutside] = useState(false);
+
+  const { BAR_AREA_HEIGHT, GRID_COLUMN_WIDTH, BAR_ALIGN_MARGIN } =
+    GANTT_CHART_DEFAULT_VALUE;
+
+  // drag start coordinates / values
+  const dragDataRef = useRef({
+    initialMouseX: 0,
+    initialStartX: 0,
+    initialEndX: 0,
+    initialProgress: task.progress,
+  });
+
   const textRef = useRef<SVGTextElement>(null);
 
   const startX = dateToX(localStartDate);
   const endX = dateToX(localEndDate);
   const width = endX - startX;
-  const y = index * GANTT_CHART_DEFAULT_VALUE.BAR_AREA_HEIGHT;
+  const y = index * BAR_AREA_HEIGHT;
 
   const progressWidth = (width * localProgress) / 100;
 
@@ -56,14 +65,14 @@ const Bar: React.FC<BarProps> = ({
     event.stopPropagation();
     event.preventDefault();
 
-    setInitialMouseX(event.clientX);
+    dragDataRef.current.initialMouseX = event.clientX;
 
     if (type === "start") {
-      setDraggingStart(true);
-      setInitialStartX(startX);
+      dragDataRef.current.initialStartX = startX;
+      setDragType("start");
     } else {
-      setDraggingEnd(true);
-      setInitialEndX(endX);
+      dragDataRef.current.initialEndX = endX;
+      setDragType("end");
     }
   };
 
@@ -76,9 +85,9 @@ const Bar: React.FC<BarProps> = ({
   ) => {
     event.stopPropagation();
     event.preventDefault();
-    setDraggingProgress(true);
-    setInitialMouseX(event.clientX);
-    setInitialProgress(localProgress);
+    dragDataRef.current.initialMouseX = event.clientX;
+    dragDataRef.current.initialProgress = localProgress;
+    setDragType("progress");
   };
 
   useEffect(() => {
@@ -87,11 +96,14 @@ const Bar: React.FC<BarProps> = ({
      * @param event
      */
     const handleMouseMove = (event: MouseEvent) => {
+      const { initialMouseX, initialStartX, initialEndX, initialProgress } =
+        dragDataRef.current;
+
       const deltaX = event.clientX - initialMouseX;
 
       // (1) start date handle is dragging
-      if (draggingStart) {
-        const GRID_WIDTH = GANTT_CHART_DEFAULT_VALUE.GRID_COLUMN_WIDTH;
+      if (dragType === "start") {
+        const GRID_WIDTH = GRID_COLUMN_WIDTH;
         const daysDelta = Math.round(deltaX / GRID_WIDTH);
         const baseStartDate = xToDate(initialStartX);
         let newStartDate = new Date(
@@ -105,11 +117,13 @@ const Bar: React.FC<BarProps> = ({
         }
 
         setLocalStartDate(newStartDate);
-        onDateChange?.(task.id, newStartDate, localEndDate);
+
+        // internal update during dragging (no external notification)
+        onDateChange(task.id, newStartDate, localEndDate, localProgress, false);
       }
       // (2) end date handle is dragging
-      else if (draggingEnd) {
-        const GRID_WIDTH = GANTT_CHART_DEFAULT_VALUE.GRID_COLUMN_WIDTH;
+      else if (dragType === "end") {
+        const GRID_WIDTH = GRID_COLUMN_WIDTH;
         const daysDelta = Math.round(deltaX / GRID_WIDTH);
         const baseEndDate = xToDate(initialEndX);
         let newEndDate = new Date(
@@ -123,17 +137,19 @@ const Bar: React.FC<BarProps> = ({
         }
 
         setLocalEndDate(newEndDate);
-        onDateChange?.(task.id, localStartDate, newEndDate);
+
+        // ドラッグ中の内部更新（外部通知なし）
+        onDateChange(task.id, localStartDate, newEndDate, localProgress, false);
       }
       // (3) progress handle is dragging
-      else if (draggingProgress) {
+      else if (dragType === "progress") {
         const deltaProgress = (deltaX / width) * 100;
         let newProgress = initialProgress + deltaProgress;
         newProgress = Math.max(0, Math.min(100, newProgress));
         setLocalProgress(newProgress);
-        if (onDateChange) {
-          onDateChange(task.id, localStartDate, localEndDate, newProgress);
-        }
+
+        // ドラッグ中の内部更新（外部通知なし）
+        onDateChange(task.id, localStartDate, localEndDate, newProgress, false);
       }
     };
 
@@ -141,12 +157,24 @@ const Bar: React.FC<BarProps> = ({
      * mouse up handler called when dragging ends
      */
     const handleMouseUp = () => {
-      setDraggingStart(false);
-      setDraggingEnd(false);
-      setDraggingProgress(false);
+      const wasDragging = dragType !== null;
+
+      // drag end
+      setDragType(null);
+
+      if (wasDragging) {
+        // notify external when drag ends
+        onDateChange(
+          task.id,
+          localStartDate,
+          localEndDate,
+          localProgress,
+          true,
+        );
+      }
     };
 
-    if (draggingStart || draggingEnd || draggingProgress) {
+    if (dragType !== null) {
       window.addEventListener("mousemove", handleMouseMove);
       window.addEventListener("mouseup", handleMouseUp);
     } else {
@@ -161,16 +189,12 @@ const Bar: React.FC<BarProps> = ({
     };
   }, [
     task.id,
-    draggingStart,
-    draggingEnd,
-    draggingProgress,
-    initialMouseX,
-    initialStartX,
-    initialEndX,
-    initialProgress,
+    dragType,
     localEndDate,
     localStartDate,
+    localProgress,
     width,
+    GRID_COLUMN_WIDTH,
     xToDate,
     onDateChange,
   ]);
@@ -191,14 +215,11 @@ const Bar: React.FC<BarProps> = ({
       <rect
         className={styles["default-bar"]}
         x={startX}
-        y={y + GANTT_CHART_DEFAULT_VALUE.BAR_ALIGN_MARGIN}
+        y={y + BAR_ALIGN_MARGIN}
         rx="5"
         ry="5"
         width={width}
-        height={
-          GANTT_CHART_DEFAULT_VALUE.BAR_AREA_HEIGHT -
-          GANTT_CHART_DEFAULT_VALUE.BAR_ALIGN_MARGIN * 2
-        }
+        height={BAR_AREA_HEIGHT - BAR_ALIGN_MARGIN * 2}
       />
 
       {/* progress bar */}
@@ -206,14 +227,11 @@ const Bar: React.FC<BarProps> = ({
         <rect
           className={styles["progress-bar"]}
           x={startX}
-          y={y + GANTT_CHART_DEFAULT_VALUE.BAR_ALIGN_MARGIN}
+          y={y + BAR_ALIGN_MARGIN}
           rx="5"
           ry="5"
           width={progressWidth}
-          height={
-            GANTT_CHART_DEFAULT_VALUE.BAR_AREA_HEIGHT -
-            GANTT_CHART_DEFAULT_VALUE.BAR_ALIGN_MARGIN * 2
-          }
+          height={BAR_AREA_HEIGHT - BAR_ALIGN_MARGIN * 2}
         />
       )}
 
@@ -222,7 +240,7 @@ const Bar: React.FC<BarProps> = ({
         ref={textRef}
         className={styles["task-name"]}
         x={displayOutside ? endX + 5 : startX + width / 2}
-        y={y + GANTT_CHART_DEFAULT_VALUE.BAR_AREA_HEIGHT / 1.95}
+        y={y + BAR_AREA_HEIGHT / 1.95}
         dominantBaseline="middle"
         textAnchor={displayOutside ? "start" : "middle"}
       >
@@ -237,7 +255,6 @@ const Bar: React.FC<BarProps> = ({
             type="start"
             x={startX + 2}
             y={y + 15}
-            width={width}
             onMouseDownDateHandle={onMouseDownDateHandle}
           />
 
@@ -256,7 +273,6 @@ const Bar: React.FC<BarProps> = ({
             type="end"
             x={endX - 7}
             y={y + 15}
-            width={width}
             onMouseDownDateHandle={onMouseDownDateHandle}
           />
         </>

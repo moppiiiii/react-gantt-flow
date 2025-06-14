@@ -1,4 +1,5 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useCallback, memo, useEffect } from "react";
+import { useTimeScale } from "@/hooks/useTimeScale";
 import { addDays } from "date-fns";
 import Grid from "./Grid";
 import DaysRow from "./DaysRow";
@@ -8,25 +9,40 @@ import TodayLine from "./TodayLine";
 import DisparityRect from "./DisparityRect";
 import { getMinAndMaxDate } from "@/utils/get-min-date-and-max-date";
 import { getDateRange } from "@/utils/get-task-date-range";
+import type { Task } from "@/types/task";
 import type { GanttChartProps } from "./type";
 import {
+  END_DATE_OFFSET,
   GANTT_CHART_DEFAULT_VALUE,
   GANTT_FLOW_DEFAULT_TITLE,
+  START_DATE_OFFSET,
 } from "./constants";
 
+const calcRange = (tasks: Task[]): [Date, Date] => {
+  if (tasks.length === 0) {
+    const now = new Date();
+    return [addDays(now, -START_DATE_OFFSET), addDays(now, END_DATE_OFFSET)];
+  }
+  const { min, max } = getMinAndMaxDate(tasks);
+  return [addDays(min, -START_DATE_OFFSET), addDays(max, END_DATE_OFFSET)];
+};
+
 const GanttChart: React.FC<GanttChartProps> = ({
+  disparityDisplay,
   task,
-  todaysLineDisplay = false,
-  inazumaLineDisplay = false,
+  todaysLineDisplay,
+  onDateChange,
 }) => {
-  const [minDate, maxDate] = useMemo(() => {
-    const offset = 7;
-    if (task.length === 0) {
-      const now = new Date();
-      return [addDays(now, -offset), addDays(now, offset)];
-    }
-    const { min, max } = getMinAndMaxDate(task);
-    return [addDays(min, -offset), addDays(max, offset)];
+  const [tasksState, setTasksState] = useState(task);
+  const [range, setRange] = useState(calcRange(task));
+  const [minDate, maxDate] = range;
+
+  const { LEFT_MARGIN, GRID_COLUMN_WIDTH, BAR_AREA_HEIGHT, AXIS_HEIGHT } =
+    GANTT_CHART_DEFAULT_VALUE;
+
+  useEffect(() => {
+    setTasksState(task);
+    setRange(calcRange(task));
   }, [task]);
 
   const days = useMemo(
@@ -34,77 +50,81 @@ const GanttChart: React.FC<GanttChartProps> = ({
     [minDate, maxDate],
   );
 
-  // タスク状態を GanttChart 内で管理
-  const [tasksState, setTasksState] = useState(task);
+  const chartWidth = useMemo(
+    () => LEFT_MARGIN + days.length * GRID_COLUMN_WIDTH,
+    [days.length, LEFT_MARGIN, GRID_COLUMN_WIDTH],
+  );
 
-  const chartWidth = days.length * GANTT_CHART_DEFAULT_VALUE.GRID_COLUMN_WIDTH;
+  const chartHeight = useMemo(
+    () => tasksState.length * BAR_AREA_HEIGHT + AXIS_HEIGHT,
+    [tasksState.length, BAR_AREA_HEIGHT, AXIS_HEIGHT],
+  );
 
-  const chartHeight =
-    tasksState.length * GANTT_CHART_DEFAULT_VALUE.BAR_AREA_HEIGHT +
-    GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT;
+  const { dateToX, xToDate } = useTimeScale(minDate, maxDate, chartWidth);
 
-  const dateToX = (date: Date): number => {
-    const totalDuration = maxDate.getTime() - minDate.getTime();
-    const currentOffset = date.getTime() - minDate.getTime();
-    if (totalDuration === 0) return 0;
+  const handleTaskUpdate = useCallback(
+    (
+      taskId: string,
+      newStart: Date,
+      newEnd: Date,
+      newProgress?: number,
+      shouldNotifyExternal = true,
+    ) => {
+      // local state update
+      setTasksState((prev) => {
+        const updated = prev.map((t) =>
+          t.id === taskId
+            ? {
+                ...t,
+                startDate: newStart,
+                endDate: newEnd,
+                ...(newProgress !== undefined ? { progress: newProgress } : {}),
+              }
+            : t,
+        );
 
-    return (
-      GANTT_CHART_DEFAULT_VALUE.LEFT_MARGIN +
-      (currentOffset / totalDuration) *
-        (chartWidth - GANTT_CHART_DEFAULT_VALUE.RIGHT_MARGIN)
-    );
-  };
+        if (shouldNotifyExternal) {
+          setRange(calcRange(updated));
+        }
+        return updated;
+      });
 
-  function xToDate(x: number): Date {
-    const totalDuration = maxDate.getTime() - minDate.getTime();
-    if (totalDuration === 0) {
-      return new Date(minDate);
-    }
-
-    const usableWidth = chartWidth - GANTT_CHART_DEFAULT_VALUE.RIGHT_MARGIN;
-
-    const adjustedX = x - GANTT_CHART_DEFAULT_VALUE.LEFT_MARGIN;
-
-    const fraction = adjustedX / usableWidth;
-
-    const offsetMs = fraction * totalDuration;
-    const dateTime = minDate.getTime() + offsetMs;
-
-    return new Date(dateTime);
-  }
+      // notify external (user) only if the flag is enabled
+      if (shouldNotifyExternal && onDateChange) {
+        onDateChange(taskId, newStart, newEnd, newProgress);
+      }
+    },
+    [onDateChange],
+  );
 
   return (
     <svg width={chartWidth} height={chartHeight}>
       <title>{GANTT_FLOW_DEFAULT_TITLE}</title>
 
-      <MonthsRow
-        days={days}
-        dateToX={dateToX}
-        axisHeight={GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT / 2}
-      />
+      <MonthsRow days={days} dateToX={dateToX} axisHeight={AXIS_HEIGHT / 2} />
 
       <DaysRow
         days={days}
         dateToX={dateToX}
-        axisHeight={GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT / 2}
-        yOffset={GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT / 2}
+        axisHeight={AXIS_HEIGHT / 2}
+        yOffset={AXIS_HEIGHT / 2}
       />
 
       <Grid
         days={days}
         taskCount={tasksState.length}
         dateToX={dateToX}
-        axisHeight={GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT}
+        axisHeight={AXIS_HEIGHT}
         chartWidth={chartWidth}
         chartHeight={chartHeight}
       />
 
-      {inazumaLineDisplay && (
+      {disparityDisplay && (
         <DisparityRect
           tasks={tasksState}
           dateToX={dateToX}
-          axisHeight={GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT}
-          barAreaHeight={GANTT_CHART_DEFAULT_VALUE.BAR_AREA_HEIGHT}
+          axisHeight={AXIS_HEIGHT}
+          barAreaHeight={BAR_AREA_HEIGHT}
         />
       )}
 
@@ -112,22 +132,7 @@ const GanttChart: React.FC<GanttChartProps> = ({
         tasks={tasksState}
         dateToX={dateToX}
         xToDate={xToDate}
-        onTaskUpdate={(taskId, newStart, newEnd, newProgress) =>
-          setTasksState((prev) =>
-            prev.map((t) =>
-              t.id === taskId
-                ? {
-                    ...t,
-                    startDate: newStart,
-                    endDate: newEnd,
-                    ...(newProgress !== undefined
-                      ? { progress: newProgress }
-                      : {}),
-                  }
-                : t,
-            ),
-          )
-        }
+        onTaskUpdate={handleTaskUpdate}
         chartMinDate={minDate}
         chartMaxDate={maxDate}
       />
@@ -135,7 +140,7 @@ const GanttChart: React.FC<GanttChartProps> = ({
       {todaysLineDisplay && (
         <TodayLine
           dateToX={dateToX}
-          axisHeight={GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT}
+          axisHeight={AXIS_HEIGHT}
           chartHeight={chartHeight}
         />
       )}
@@ -143,4 +148,4 @@ const GanttChart: React.FC<GanttChartProps> = ({
   );
 };
 
-export default GanttChart;
+export default memo(GanttChart);

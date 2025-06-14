@@ -7,9 +7,11 @@ import { GANTT_CHART_DEFAULT_VALUE } from "../constants";
 import styles from "./DependenciesArror.module.css";
 
 const DependenciesArrow: React.FC<DependenciesArrowProps> = ({
-  tasks,
   barPositions,
+  tasks,
 }) => {
+  const { BAR_AREA_HEIGHT, BAR_ARROW_STROKE_WIDTH } = GANTT_CHART_DEFAULT_VALUE;
+
   return (
     <>
       {tasks.map((task, i) => {
@@ -25,12 +27,10 @@ const DependenciesArrow: React.FC<DependenciesArrowProps> = ({
           const currentPos = barPositions[i];
 
           const startX = depPos.x + depPos.width;
-          const startY =
-            depPos.y + GANTT_CHART_DEFAULT_VALUE.BAR_AREA_HEIGHT / 2;
+          const startY = depPos.y + BAR_AREA_HEIGHT / 2;
 
           const endX = currentPos.x;
-          const endY =
-            currentPos.y + GANTT_CHART_DEFAULT_VALUE.BAR_AREA_HEIGHT / 2;
+          const endY = currentPos.y + BAR_AREA_HEIGHT / 2;
 
           const pathD = getDependenciesArrowPath(startX, startY, endX, endY);
 
@@ -39,15 +39,13 @@ const DependenciesArrow: React.FC<DependenciesArrowProps> = ({
               <path
                 d={pathD}
                 className={styles["dependencies-arrow-path"]}
-                strokeWidth={GANTT_CHART_DEFAULT_VALUE.BAR_ARROW_STROKE_WIDTH}
+                strokeWidth={BAR_ARROW_STROKE_WIDTH}
               />
-              <polygon
-                points={`
-            ${endX},${endY}
-            ${endX - 5},${endY + 5}
-            ${endX - 5},${endY - 5}
-          `}
-                className={styles["dependencies-arrow-polygon"]}
+              <circle
+                className={styles["dependencies-arrow-circle"]}
+                cx={endX}
+                cy={endY}
+                r={5}
               />
             </g>
           );

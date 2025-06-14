@@ -14,12 +14,18 @@ export function getDependenciesArrowPath(
   ex: number,
   ey: number,
 ) {
+  const { GRID_COLUMN_WIDTH, BAR_AREA_HEIGHT, GRID_STROKE_WIDTH } =
+    GANTT_CHART_DEFAULT_VALUE;
+
+  const intensity = 2;
+
+  const cpOffsetX = (GRID_COLUMN_WIDTH / 2) * intensity;
+  const cpOffsetY = (BAR_AREA_HEIGHT / 2) * intensity;
+
   return `
-      M ${sx} ${sy}
-      h ${GANTT_CHART_DEFAULT_VALUE.GRID_COLUMN_WIDTH / 2 - GANTT_CHART_DEFAULT_VALUE.BAR_ARROW_STROKE_WIDTH / 2}
-      v ${GANTT_CHART_DEFAULT_VALUE.BAR_AREA_HEIGHT / 2}
-      H ${ex - (GANTT_CHART_DEFAULT_VALUE.GRID_COLUMN_WIDTH / 2) + GANTT_CHART_DEFAULT_VALUE.GRID_STROKE_WIDTH / 3}
-      V ${ey}
-      h ${GANTT_CHART_DEFAULT_VALUE.GRID_COLUMN_WIDTH / 2}
-    `;
+    M ${sx} ${sy}
+    C ${sx + cpOffsetX} ${sy + cpOffsetY},
+      ${ex - cpOffsetX} ${ey - cpOffsetY},
+      ${ex + GRID_STROKE_WIDTH / 2} ${ey}
+  `;
 }

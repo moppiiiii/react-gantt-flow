@@ -8,8 +8,11 @@ const meta: Meta<typeof GanttFlow> = {
   title: "Components/GanttFlow",
   component: GanttFlow,
   tags: ["autodocs"],
-  args: {
-    task: TASK_MOCK_DATA,
+  parameters: {
+    actions: { argTypesRegex: "^on.*" },
+  },
+  argTypes: {
+    onChange: { action: "onChange" },
   },
 } satisfies Meta<typeof GanttFlow>;
 
@@ -22,6 +25,13 @@ export const Default: Story = {
   },
 };
 
+export const TaskListDisplay: Story = {
+  args: {
+    task: TASK_MOCK_DATA,
+    taskListDisplay: true,
+  },
+};
+
 export const TodaysLineDisplay: Story = {
   args: {
     task: TASK_MOCK_DATA,
@@ -29,10 +39,10 @@ export const TodaysLineDisplay: Story = {
   },
 };
 
-export const InazumaLineDisplay: Story = {
+export const DisparityDisplay: Story = {
   args: {
     task: TASK_MOCK_DATA,
     todaysLineDisplay: true,
-    inazumaLineDisplay: true,
+    disparityDisplay: true,
   },
 };
