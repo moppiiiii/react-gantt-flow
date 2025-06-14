@@ -73,6 +73,7 @@ const initialTasks = [
     endDate: new Date(2025, 0, 7),
     progress: 30,
     dependencies: [],
+    status: "inProgress"
   },
   {
     id: "task-002",
@@ -81,6 +82,7 @@ const initialTasks = [
     endDate: new Date(2025, 0, 21),
     progress: 0,
     dependencies: ["task-001"],
+    status: "todo"
   },
 ];
 
@@ -134,6 +136,7 @@ type Task = {
   endDate: Date;
   progress: number; // 0 ~ 100
   dependencies: string[];
+  status: "todo" | "inProgress" | "done";
 };
 ```
 
