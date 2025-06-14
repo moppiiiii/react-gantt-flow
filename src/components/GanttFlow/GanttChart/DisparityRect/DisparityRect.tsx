@@ -2,11 +2,13 @@ import type { DisparityRectProps } from "./type";
 import { GANTT_CHART_DEFAULT_VALUE } from "../constants";
 
 const DisparityRect: React.FC<DisparityRectProps> = ({
-  tasks,
-  dateToX,
   axisHeight,
   barAreaHeight,
+  tasks,
+  dateToX,
 }) => {
+  const { GRID_STROKE_WIDTH } = GANTT_CHART_DEFAULT_VALUE;
+
   const todayX = dateToX(new Date());
 
   const COLOR_DISPARITY_AHEAD = "#92e896";
@@ -18,22 +20,21 @@ const DisparityRect: React.FC<DisparityRectProps> = ({
   return (
     <g>
       {tasks.map((task, i) => {
-        // 各タスクバーの矩形座標
+        // each task bar rectangle coordinates
         const rowTop = axisHeight + i * barAreaHeight;
         const rectY = rowTop;
-        const rectHeight =
-          barAreaHeight - GANTT_CHART_DEFAULT_VALUE.GRID_STROKE_WIDTH;
+        const rectHeight = barAreaHeight - GRID_STROKE_WIDTH;
 
-        // 進捗率 100% の場合は稲妻矩形を描画しない
+        // if progress is 100%, don't draw the disparity rectangle
         if (task.progress === 100) return null;
 
-        // 進捗位置（バー上での X）
+        // progress position (on the bar)
         const startX = dateToX(new Date(task.startDate));
         const endX = dateToX(new Date(task.endDate)) - RECT_STROKE_WIDTH / 2;
         const width = endX - startX;
         const progressX = startX + (width * task.progress) / 100;
 
-        // TodaysLine との距離
+        // distance from TodaysLine
         const rectX = Math.min(todayX, progressX);
         const rectWidth = Math.abs(progressX - todayX);
 

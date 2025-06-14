@@ -1,54 +1,60 @@
 import type { Task } from "@/types/task";
 
 /**
- * @description Task bars props
+ * Task Bars Component Properties.
+ *
+ * This type defines the properties for rendering a collection of task bars in the Gantt chart.
+ * It includes an array of task objects, date conversion functions, chart boundaries, and a callback for task updates.
  */
 export type TaskBarsProps = {
   /**
-   * @description Tasks
-   */
-  tasks: Task[];
-  /**
-   * @description Date to x
-   */
-  dateToX: (date: Date) => number;
-  /**
-   * @description X to date
-   */
-  xToDate: (x: number) => Date;
-  /**
-   * @description Chart minimum date
-   */
-  chartMinDate: Date;
-  /**
-   * @description Chart maximum date
+   * The end boundary of the chart's date range.
    */
   chartMaxDate: Date;
   /**
-   * @description On task update
+   * The start boundary of the chart's date range.
+   */
+  chartMinDate: Date;
+  /**
+   * An array of task objects conforming to the Task type.
+   */
+  tasks: Task[];
+  /**
+   * Function to convert a Date object to its corresponding x-coordinate.
+   */
+  dateToX: (date: Date) => number;
+  /**
+   * Function to convert an x-coordinate value back into a Date object.
+   */
+  xToDate: (x: number) => Date;
+  /**
+   * Callback function invoked when a task is updated. Parameters include taskId, new start date, new end date, and an optional new progress.
    */
   onTaskUpdate: (
     taskId: string,
     newStart: Date,
     newEnd: Date,
     newProgress?: number,
+    shouldNotifyExternal?: boolean,
   ) => void;
 };
 
 /**
- * @description Task bars position
+ * Task Bars Position.
+ *
+ * This type defines the position and dimensions of a task bar within the Gantt chart.
  */
 export type TaskBarsPosition = {
   /**
-   * @description X
+   * The width of the task bar.
+   */
+  width: number;
+  /**
+   * The x-coordinate of the task bar.
    */
   x: number;
   /**
-   * @description Y
+   * The y-coordinate of the task bar.
    */
   y: number;
-  /**
-   * @description Width
-   */
-  width: number;
 };

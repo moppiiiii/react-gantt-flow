@@ -2,10 +2,11 @@ import { GANTT_CHART_DEFAULT_VALUE } from "../constants";
 import type { TodayLineProps } from "./type";
 
 const TodayLine: React.FC<TodayLineProps> = ({
-  dateToX,
   axisHeight,
   chartHeight,
+  dateToX,
 }) => {
+  const { GRID_STROKE_WIDTH } = GANTT_CHART_DEFAULT_VALUE;
   const x = dateToX(new Date());
 
   return (
@@ -16,13 +17,13 @@ const TodayLine: React.FC<TodayLineProps> = ({
         x2={x}
         y2={axisHeight + chartHeight}
         stroke="red"
-        strokeWidth={GANTT_CHART_DEFAULT_VALUE.GRID_STROKE_WIDTH}
+        strokeWidth={GRID_STROKE_WIDTH}
       />
 
-      {/* 中心の赤丸（静止） */}
+      {/* center red circle (static) */}
       <circle cx={x} cy={axisHeight} r={5} fill="red" />
 
-      {/* 波紋用の円（拡大 + フェードアウトするアニメーション） */}
+      {/* ripple circle (expand + fade out animation) */}
       <circle cx={x} cy={axisHeight} fill="none" stroke="red" strokeWidth={2}>
         <animate
           attributeName="r"
