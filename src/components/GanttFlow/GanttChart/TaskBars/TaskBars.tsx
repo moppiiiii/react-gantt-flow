@@ -8,10 +8,12 @@ import { GANTT_CHART_DEFAULT_VALUE } from "../constants";
 
 const TaskBars: React.FC<TaskBarsProps> = memo(
   ({ tasks, chartMinDate, chartMaxDate, dateToX, xToDate, onTaskUpdate }) => {
+    const { BAR_AREA_HEIGHT, AXIS_HEIGHT } = GANTT_CHART_DEFAULT_VALUE;
+
     const barPositions: TaskBarsPosition[] = tasks.map((task, i) => {
       const x = dateToX(task.startDate);
       const width = dateToX(task.endDate) - dateToX(task.startDate);
-      const y = i * GANTT_CHART_DEFAULT_VALUE.BAR_AREA_HEIGHT;
+      const y = i * BAR_AREA_HEIGHT;
       return { x, y, width };
     });
 
@@ -26,7 +28,7 @@ const TaskBars: React.FC<TaskBarsProps> = memo(
     };
 
     return (
-      <g transform={`translate(0, ${GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT})`}>
+      <g transform={`translate(0, ${AXIS_HEIGHT})`}>
         <DependenciesArrow tasks={tasks} barPositions={barPositions} />
 
         {tasks.map((task, index) => (
