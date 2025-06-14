@@ -5,10 +5,6 @@
  */
 export type TodayLineProps = {
   /**
-   * Function to convert a Date object to its corresponding x-coordinate value.
-   */
-  dateToX: (date: Date) => number;
-  /**
    * The height of the axis associated with the today's line marker.
    */
   axisHeight: number;
@@ -16,4 +12,8 @@ export type TodayLineProps = {
    * The full height of the Gantt chart, used to define the extent of the today's line marker.
    */
   chartHeight: number;
+  /**
+   * Function to convert a Date object to its corresponding x-coordinate value.
+   */
+  dateToX: (date: Date) => number;
 };

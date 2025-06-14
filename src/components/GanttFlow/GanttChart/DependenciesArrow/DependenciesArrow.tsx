@@ -7,8 +7,8 @@ import { GANTT_CHART_DEFAULT_VALUE } from "../constants";
 import styles from "./DependenciesArror.module.css";
 
 const DependenciesArrow: React.FC<DependenciesArrowProps> = ({
-  tasks,
   barPositions,
+  tasks,
 }) => {
   return (
     <>

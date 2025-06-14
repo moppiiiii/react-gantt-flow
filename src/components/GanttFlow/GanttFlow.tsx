@@ -9,10 +9,10 @@ const GanttChart = lazy(() => import("./GanttChart"));
 
 const GanttFlow: React.FC<GanttFlowProps> = memo(
   ({
-    taskListDisplay = false,
+    disparityDisplay,
     task,
-    todaysLineDisplay = false,
-    disparityDisplay = false,
+    taskListDisplay,
+    todaysLineDisplay,
     onChange,
   }) => {
     // Re-run normalization only when task changes

@@ -9,11 +9,11 @@ import type { TaskBarsPosition } from "../TaskBars/type";
  */
 export type DependenciesArrowProps = {
   /**
-   * An array of task objects representing the tasks between which dependencies are drawn.
-   */
-  tasks: Task[];
-  /**
    * An array of bar positions representing the x and y coordinates and widths for tasks in the chart.
    */
   barPositions: TaskBarsPosition[];
+  /**
+   * An array of task objects representing the tasks between which dependencies are drawn.
+   */
+  tasks: Task[];
 };

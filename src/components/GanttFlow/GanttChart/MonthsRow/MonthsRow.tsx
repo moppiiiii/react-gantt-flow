@@ -1,18 +1,11 @@
 import { memo } from "react";
 import styles from "./MonthsRow.module.css";
-import type { MonthsRowProps } from "./type";
+import type { MonthGroup, MonthsRowProps } from "./type";
 
 const MonthsRow: React.FC<MonthsRowProps> = memo(
-  ({ days, dateToX, axisHeight }) => {
+  ({ axisHeight, days, dateToX }) => {
     if (!days || days.length === 0) return null;
 
-    // Group days by month
-    type MonthGroup = {
-      key: string;
-      month: string;
-      start: Date;
-      end: Date;
-    };
     const monthGroups: MonthGroup[] = [];
 
     let currentKey = `${days[0].getFullYear()}-${days[0].getMonth()}`;
@@ -26,6 +19,7 @@ const MonthsRow: React.FC<MonthsRowProps> = memo(
     for (let i = 1; i < days.length; i++) {
       const day = days[i];
       const key = `${day.getFullYear()}-${day.getMonth()}`;
+
       if (key === currentKey) {
         groupEnd = day;
       } else {
@@ -44,6 +38,7 @@ const MonthsRow: React.FC<MonthsRowProps> = memo(
         groupEnd = day;
       }
     }
+
     monthGroups.push({
       key: currentKey,
       month: currentMonthLabel,

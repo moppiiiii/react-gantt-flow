@@ -6,6 +6,14 @@
  */
 export type Task = {
   /**
+   * Array of task IDs that this task depends on; for example, ["task-002", "task-003"].
+   */
+  dependencies: string[];
+  /**
+   * The expected end date which helps in deadline management.
+   */
+  endDate: Date;
+  /**
    * Unique identifier for the task (e.g., "task-001").
    */
   id: string;
@@ -14,19 +22,11 @@ export type Task = {
    */
   name: string;
   /**
-   * The start date of the task used for scheduling.
-   */
-  startDate: Date;
-  /**
-   * The expected end date which helps in deadline management.
-   */
-  endDate: Date;
-  /**
    * Progress of the task expressed as a percentage ranging from 0 to 100.
    */
   progress: number;
   /**
-   * Array of task IDs that this task depends on; for example, ["task-002", "task-003"].
+   * The start date of the task used for scheduling.
    */
-  dependencies: string[];
+  startDate: Date;
 };

@@ -2,9 +2,9 @@ import { GANTT_CHART_DEFAULT_VALUE } from "../constants";
 import type { TodayLineProps } from "./type";
 
 const TodayLine: React.FC<TodayLineProps> = ({
-  dateToX,
   axisHeight,
   chartHeight,
+  dateToX,
 }) => {
   const x = dateToX(new Date());
 
