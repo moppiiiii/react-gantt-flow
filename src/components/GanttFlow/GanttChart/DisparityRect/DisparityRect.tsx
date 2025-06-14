@@ -26,7 +26,12 @@ const DisparityRect: React.FC<DisparityRectProps> = ({
         const rectHeight = barAreaHeight - GRID_STROKE_WIDTH;
 
         // if progress is 100%, don't draw the disparity rectangle
-        if (task.progress === 100) return null;
+        if (
+          task.progress === 100 ||
+          task.status === "done" ||
+          task.status === "todo"
+        )
+          return null;
 
         // progress position (on the bar)
         const startX = dateToX(new Date(task.startDate));
