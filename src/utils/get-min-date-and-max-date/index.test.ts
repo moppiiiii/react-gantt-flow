@@ -12,7 +12,6 @@ describe("getMinAndMaxDate", () => {
         endDate: new Date("2025-02-10"),
         progress: 50,
         dependencies: [],
-        status: "inProgress",
       },
       {
         id: "task-2",
@@ -21,7 +20,6 @@ describe("getMinAndMaxDate", () => {
         endDate: new Date("2025-02-20"),
         progress: 75,
         dependencies: ["task-1"],
-        status: "inProgress",
       },
       {
         id: "task-3",
@@ -30,7 +28,6 @@ describe("getMinAndMaxDate", () => {
         endDate: new Date("2025-04-10"),
         progress: 20,
         dependencies: ["task-2"],
-        status: "inProgress",
       },
     ];
 
@@ -49,7 +46,6 @@ describe("getMinAndMaxDate", () => {
         endDate: new Date("2025-05-10"),
         progress: 100,
         dependencies: [],
-        status: "done",
       },
     ];
 
@@ -76,7 +72,6 @@ describe("getMinAndMaxDate", () => {
         endDate: new Date("2025-06-10"),
         progress: 30,
         dependencies: [],
-        status: "inProgress",
       },
       {
         id: "task-6",
@@ -85,7 +80,6 @@ describe("getMinAndMaxDate", () => {
         endDate: new Date("2025-06-10"),
         progress: 60,
         dependencies: ["task-5"],
-        status: "inProgress",
       },
     ];
 
@@ -104,7 +98,6 @@ describe("getMinAndMaxDate", () => {
         endDate: new Date("2025-07-15"),
         progress: 40,
         dependencies: [],
-        status: "inProgress",
       },
       {
         id: "task-8",
@@ -113,7 +106,6 @@ describe("getMinAndMaxDate", () => {
         endDate: new Date("2025-07-20"),
         progress: 80,
         dependencies: ["task-7"],
-        status: "inProgress",
       },
       {
         id: "task-9",
@@ -122,7 +114,6 @@ describe("getMinAndMaxDate", () => {
         endDate: new Date("2025-07-20"),
         progress: 60,
         dependencies: ["task-8"],
-        status: "inProgress",
       },
     ];
 
@@ -141,7 +132,6 @@ describe("getMinAndMaxDate", () => {
         endDate: new Date("2025-08-10T15:45:00"),
         progress: 90,
         dependencies: [],
-        status: "inProgress",
       },
       {
         id: "task-11",
@@ -150,7 +140,6 @@ describe("getMinAndMaxDate", () => {
         endDate: new Date("2025-08-09T17:00:00"),
         progress: 70,
         dependencies: ["task-10"],
-        status: "inProgress",
       },
     ];
 
@@ -169,7 +158,6 @@ describe("getMinAndMaxDate", () => {
         endDate: new Date("2025-09-10"),
         progress: 20,
         dependencies: [],
-        status: "inProgress",
       },
       {
         id: "task-13",
@@ -178,7 +166,6 @@ describe("getMinAndMaxDate", () => {
         endDate: new Date("2025-09-15"),
         progress: 50,
         dependencies: ["task-12"],
-        status: "inProgress",
       },
       {
         id: "task-14",
@@ -187,7 +174,6 @@ describe("getMinAndMaxDate", () => {
         endDate: new Date("2025-09-20"),
         progress: 80,
         dependencies: ["task-13"],
-        status: "inProgress",
       },
     ];
 
@@ -206,7 +192,6 @@ describe("getMinAndMaxDate", () => {
         endDate: new Date("2025-10-10"),
         progress: 10,
         dependencies: [],
-        status: "inProgress",
       },
       {
         id: "task-16",
@@ -215,7 +200,6 @@ describe("getMinAndMaxDate", () => {
         endDate: new Date("2025-10-15"),
         progress: 40,
         dependencies: ["task-15"],
-        status: "inProgress",
       },
     ];
 
