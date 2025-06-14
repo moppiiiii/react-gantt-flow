@@ -41,13 +41,11 @@ const DependenciesArrow: React.FC<DependenciesArrowProps> = ({
                 className={styles["dependencies-arrow-path"]}
                 strokeWidth={GANTT_CHART_DEFAULT_VALUE.BAR_ARROW_STROKE_WIDTH}
               />
-              <polygon
-                points={`
-            ${endX},${endY}
-            ${endX - 5},${endY + 5}
-            ${endX - 5},${endY - 5}
-          `}
-                className={styles["dependencies-arrow-polygon"]}
+              <circle
+                className={styles["dependencies-arrow-circle"]}
+                cx={endX}
+                cy={endY}
+                r={5}
               />
             </g>
           );

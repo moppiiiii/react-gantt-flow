@@ -1,5 +1,5 @@
 declare const styles: {
+  readonly "dependencies-arrow-circle": string;
   readonly "dependencies-arrow-path": string;
-  readonly "dependencies-arrow-polygon": string;
 };
 export = styles;
