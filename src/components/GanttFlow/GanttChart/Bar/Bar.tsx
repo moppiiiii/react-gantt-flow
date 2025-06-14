@@ -30,6 +30,12 @@ const Bar: React.FC<BarProps> = ({
     null,
   );
 
+  // Bar name display position calculation
+  const [displayOutside, setDisplayOutside] = useState(false);
+
+  const { BAR_AREA_HEIGHT, GRID_COLUMN_WIDTH, BAR_ALIGN_MARGIN } =
+    GANTT_CHART_DEFAULT_VALUE;
+
   // drag start coordinates / values
   const dragDataRef = useRef({
     initialMouseX: 0,
@@ -38,14 +44,12 @@ const Bar: React.FC<BarProps> = ({
     initialProgress: task.progress,
   });
 
-  // Bar name display position calculation
-  const [displayOutside, setDisplayOutside] = useState(false);
   const textRef = useRef<SVGTextElement>(null);
 
   const startX = dateToX(localStartDate);
   const endX = dateToX(localEndDate);
   const width = endX - startX;
-  const y = index * GANTT_CHART_DEFAULT_VALUE.BAR_AREA_HEIGHT;
+  const y = index * BAR_AREA_HEIGHT;
 
   const progressWidth = (width * localProgress) / 100;
 
@@ -99,7 +103,7 @@ const Bar: React.FC<BarProps> = ({
 
       // (1) start date handle is dragging
       if (dragType === "start") {
-        const GRID_WIDTH = GANTT_CHART_DEFAULT_VALUE.GRID_COLUMN_WIDTH;
+        const GRID_WIDTH = GRID_COLUMN_WIDTH;
         const daysDelta = Math.round(deltaX / GRID_WIDTH);
         const baseStartDate = xToDate(initialStartX);
         let newStartDate = new Date(
@@ -119,7 +123,7 @@ const Bar: React.FC<BarProps> = ({
       }
       // (2) end date handle is dragging
       else if (dragType === "end") {
-        const GRID_WIDTH = GANTT_CHART_DEFAULT_VALUE.GRID_COLUMN_WIDTH;
+        const GRID_WIDTH = GRID_COLUMN_WIDTH;
         const daysDelta = Math.round(deltaX / GRID_WIDTH);
         const baseEndDate = xToDate(initialEndX);
         let newEndDate = new Date(
@@ -190,6 +194,7 @@ const Bar: React.FC<BarProps> = ({
     localStartDate,
     localProgress,
     width,
+    GRID_COLUMN_WIDTH,
     xToDate,
     onDateChange,
   ]);
@@ -210,14 +215,11 @@ const Bar: React.FC<BarProps> = ({
       <rect
         className={styles["default-bar"]}
         x={startX}
-        y={y + GANTT_CHART_DEFAULT_VALUE.BAR_ALIGN_MARGIN}
+        y={y + BAR_ALIGN_MARGIN}
         rx="5"
         ry="5"
         width={width}
-        height={
-          GANTT_CHART_DEFAULT_VALUE.BAR_AREA_HEIGHT -
-          GANTT_CHART_DEFAULT_VALUE.BAR_ALIGN_MARGIN * 2
-        }
+        height={BAR_AREA_HEIGHT - BAR_ALIGN_MARGIN * 2}
       />
 
       {/* progress bar */}
@@ -225,14 +227,11 @@ const Bar: React.FC<BarProps> = ({
         <rect
           className={styles["progress-bar"]}
           x={startX}
-          y={y + GANTT_CHART_DEFAULT_VALUE.BAR_ALIGN_MARGIN}
+          y={y + BAR_ALIGN_MARGIN}
           rx="5"
           ry="5"
           width={progressWidth}
-          height={
-            GANTT_CHART_DEFAULT_VALUE.BAR_AREA_HEIGHT -
-            GANTT_CHART_DEFAULT_VALUE.BAR_ALIGN_MARGIN * 2
-          }
+          height={BAR_AREA_HEIGHT - BAR_ALIGN_MARGIN * 2}
         />
       )}
 
@@ -241,7 +240,7 @@ const Bar: React.FC<BarProps> = ({
         ref={textRef}
         className={styles["task-name"]}
         x={displayOutside ? endX + 5 : startX + width / 2}
-        y={y + GANTT_CHART_DEFAULT_VALUE.BAR_AREA_HEIGHT / 1.95}
+        y={y + BAR_AREA_HEIGHT / 1.95}
         dominantBaseline="middle"
         textAnchor={displayOutside ? "start" : "middle"}
       >

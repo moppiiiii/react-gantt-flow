@@ -12,27 +12,26 @@ export const useTimeScale = (
   maxDate: Date,
   chartWidth: number,
 ) => {
+  const { LEFT_MARGIN, RIGHT_MARGIN } = GANTT_CHART_DEFAULT_VALUE;
+
   return useMemo(() => {
     const dateToX = (date: Date): number => {
       const total = maxDate.getTime() - minDate.getTime();
       if (total === 0) return 0;
 
       const offset = date.getTime() - minDate.getTime();
-      return (
-        GANTT_CHART_DEFAULT_VALUE.LEFT_MARGIN +
-        (offset / total) * (chartWidth - GANTT_CHART_DEFAULT_VALUE.RIGHT_MARGIN)
-      );
+      return LEFT_MARGIN + (offset / total) * (chartWidth - RIGHT_MARGIN);
     };
 
     const xToDate = (x: number): Date => {
       const total = maxDate.getTime() - minDate.getTime();
       if (total === 0) return new Date(minDate);
 
-      const usable = chartWidth - GANTT_CHART_DEFAULT_VALUE.RIGHT_MARGIN;
-      const adjusted = x - GANTT_CHART_DEFAULT_VALUE.LEFT_MARGIN;
+      const usable = chartWidth - RIGHT_MARGIN;
+      const adjusted = x - LEFT_MARGIN;
       return new Date(minDate.getTime() + (adjusted / usable) * total);
     };
 
     return { dateToX, xToDate };
-  }, [minDate, maxDate, chartWidth]);
+  }, [minDate, maxDate, chartWidth, LEFT_MARGIN, RIGHT_MARGIN]);
 };

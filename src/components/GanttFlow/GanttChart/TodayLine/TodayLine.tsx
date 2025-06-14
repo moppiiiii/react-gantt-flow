@@ -6,6 +6,7 @@ const TodayLine: React.FC<TodayLineProps> = ({
   chartHeight,
   dateToX,
 }) => {
+  const { GRID_STROKE_WIDTH } = GANTT_CHART_DEFAULT_VALUE;
   const x = dateToX(new Date());
 
   return (
@@ -16,7 +17,7 @@ const TodayLine: React.FC<TodayLineProps> = ({
         x2={x}
         y2={axisHeight + chartHeight}
         stroke="red"
-        strokeWidth={GANTT_CHART_DEFAULT_VALUE.GRID_STROKE_WIDTH}
+        strokeWidth={GRID_STROKE_WIDTH}
       />
 
       {/* center red circle (static) */}
