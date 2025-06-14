@@ -7,18 +7,6 @@
  */
 export type GridProps = {
   /**
-   * An array of Date objects representing the days displayed in the grid.
-   */
-  days: Date[];
-  /**
-   * The total number of tasks displayed in the Gantt chart.
-   */
-  taskCount: number;
-  /**
-   * Function to convert a Date object to its corresponding x-coordinate value.
-   */
-  dateToX: (date: Date) => number;
-  /**
    * Height of the axis allocated for date labels.
    */
   axisHeight: number;
@@ -30,4 +18,16 @@ export type GridProps = {
    * The full height of the Gantt chart.
    */
   chartHeight: number;
+  /**
+   * An array of Date objects representing the days displayed in the grid.
+   */
+  days: Date[];
+  /**
+   * The total number of tasks displayed in the Gantt chart.
+   */
+  taskCount: number;
+  /**
+   * Function to convert a Date object to its corresponding x-coordinate value.
+   */
+  dateToX: (date: Date) => number;
 };

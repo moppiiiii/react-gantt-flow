@@ -7,7 +7,7 @@ import type { TaskBarsPosition, TaskBarsProps } from "./type";
 import { GANTT_CHART_DEFAULT_VALUE } from "../constants";
 
 const TaskBars: React.FC<TaskBarsProps> = memo(
-  ({ tasks, dateToX, xToDate, chartMinDate, chartMaxDate, onTaskUpdate }) => {
+  ({ tasks, chartMinDate, chartMaxDate, dateToX, xToDate, onTaskUpdate }) => {
     const barPositions: TaskBarsPosition[] = tasks.map((task, i) => {
       const x = dateToX(task.startDate);
       const width = dateToX(task.endDate) - dateToX(task.startDate);

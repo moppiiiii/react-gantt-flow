@@ -9,14 +9,6 @@ import type { Task } from "@/types/task";
  */
 export type DisparityRectProps = {
   /**
-   * An array of task objects representing the tasks for which disparities are calculated.
-   */
-  tasks: Task[];
-  /**
-   * Function to convert a Date object to its corresponding x-coordinate value.
-   */
-  dateToX: (date: Date) => number;
-  /**
    * Height of the axis where the disparity indicators are rendered.
    */
   axisHeight: number;
@@ -24,4 +16,12 @@ export type DisparityRectProps = {
    * Height of the bar area in the Gantt chart where the tasks are displayed.
    */
   barAreaHeight: number;
+  /**
+   * An array of task objects representing the tasks for which disparities are calculated.
+   */
+  tasks: Task[];
+  /**
+   * Function to convert a Date object to its corresponding x-coordinate value.
+   */
+  dateToX: (date: Date) => number;
 };

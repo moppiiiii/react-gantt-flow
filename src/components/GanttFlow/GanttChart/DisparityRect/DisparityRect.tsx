@@ -2,10 +2,10 @@ import type { DisparityRectProps } from "./type";
 import { GANTT_CHART_DEFAULT_VALUE } from "../constants";
 
 const DisparityRect: React.FC<DisparityRectProps> = ({
-  tasks,
-  dateToX,
   axisHeight,
   barAreaHeight,
+  tasks,
+  dateToX,
 }) => {
   const todayX = dateToX(new Date());
 

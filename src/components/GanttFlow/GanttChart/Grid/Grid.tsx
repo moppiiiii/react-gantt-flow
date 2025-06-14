@@ -4,7 +4,7 @@ import type { GridProps } from "./type";
 import { GANTT_CHART_DEFAULT_VALUE } from "../constants";
 
 const Grid: React.FC<GridProps> = memo(
-  ({ days, taskCount, dateToX, axisHeight, chartWidth, chartHeight }) => {
+  ({ axisHeight, chartWidth, chartHeight, days, taskCount, dateToX }) => {
     const renderRows = () =>
       Array.from({ length: taskCount }).map((_, index) => {
         const y =
