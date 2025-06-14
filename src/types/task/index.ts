@@ -29,8 +29,4 @@ export type Task = {
    * The start date of the task used for scheduling.
    */
   startDate: Date;
-  /**
-   * The status of the task.
-   */
-  status: "todo" | "inProgress" | "done";
 };
