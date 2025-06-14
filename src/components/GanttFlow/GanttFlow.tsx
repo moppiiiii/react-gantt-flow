@@ -36,4 +36,4 @@ const GanttFlow: React.FC<GanttFlowProps> = memo(
   },
 );
 
-export default GanttFlow;
+export default memo(GanttFlow);

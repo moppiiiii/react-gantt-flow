@@ -28,14 +28,17 @@ const calcRange = (tasks: Task[]): [Date, Date] => {
 };
 
 const GanttChart: React.FC<GanttChartProps> = ({
-  disparityDisplay = false,
+  disparityDisplay,
   task,
-  todaysLineDisplay = false,
+  todaysLineDisplay,
   onDateChange,
 }) => {
   const [tasksState, setTasksState] = useState(task);
   const [range, setRange] = useState(calcRange(task));
   const [minDate, maxDate] = range;
+
+  const { LEFT_MARGIN, GRID_COLUMN_WIDTH, BAR_AREA_HEIGHT, AXIS_HEIGHT } =
+    GANTT_CHART_DEFAULT_VALUE;
 
   useEffect(() => {
     setTasksState(task);
@@ -48,17 +51,13 @@ const GanttChart: React.FC<GanttChartProps> = ({
   );
 
   const chartWidth = useMemo(
-    () =>
-      GANTT_CHART_DEFAULT_VALUE.LEFT_MARGIN +
-      days.length * GANTT_CHART_DEFAULT_VALUE.GRID_COLUMN_WIDTH,
-    [days.length],
+    () => LEFT_MARGIN + days.length * GRID_COLUMN_WIDTH,
+    [days.length, LEFT_MARGIN, GRID_COLUMN_WIDTH],
   );
 
   const chartHeight = useMemo(
-    () =>
-      tasksState.length * GANTT_CHART_DEFAULT_VALUE.BAR_AREA_HEIGHT +
-      GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT,
-    [tasksState.length],
+    () => tasksState.length * BAR_AREA_HEIGHT + AXIS_HEIGHT,
+    [tasksState.length, BAR_AREA_HEIGHT, AXIS_HEIGHT],
   );
 
   const { dateToX, xToDate } = useTimeScale(minDate, maxDate, chartWidth);
@@ -102,24 +101,20 @@ const GanttChart: React.FC<GanttChartProps> = ({
     <svg width={chartWidth} height={chartHeight}>
       <title>{GANTT_FLOW_DEFAULT_TITLE}</title>
 
-      <MonthsRow
-        days={days}
-        dateToX={dateToX}
-        axisHeight={GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT / 2}
-      />
+      <MonthsRow days={days} dateToX={dateToX} axisHeight={AXIS_HEIGHT / 2} />
 
       <DaysRow
         days={days}
         dateToX={dateToX}
-        axisHeight={GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT / 2}
-        yOffset={GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT / 2}
+        axisHeight={AXIS_HEIGHT / 2}
+        yOffset={AXIS_HEIGHT / 2}
       />
 
       <Grid
         days={days}
         taskCount={tasksState.length}
         dateToX={dateToX}
-        axisHeight={GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT}
+        axisHeight={AXIS_HEIGHT}
         chartWidth={chartWidth}
         chartHeight={chartHeight}
       />
@@ -128,8 +123,8 @@ const GanttChart: React.FC<GanttChartProps> = ({
         <DisparityRect
           tasks={tasksState}
           dateToX={dateToX}
-          axisHeight={GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT}
-          barAreaHeight={GANTT_CHART_DEFAULT_VALUE.BAR_AREA_HEIGHT}
+          axisHeight={AXIS_HEIGHT}
+          barAreaHeight={BAR_AREA_HEIGHT}
         />
       )}
 
@@ -145,7 +140,7 @@ const GanttChart: React.FC<GanttChartProps> = ({
       {todaysLineDisplay && (
         <TodayLine
           dateToX={dateToX}
-          axisHeight={GANTT_CHART_DEFAULT_VALUE.AXIS_HEIGHT}
+          axisHeight={AXIS_HEIGHT}
           chartHeight={chartHeight}
         />
       )}

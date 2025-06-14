@@ -7,6 +7,8 @@ const DisparityRect: React.FC<DisparityRectProps> = ({
   tasks,
   dateToX,
 }) => {
+  const { GRID_STROKE_WIDTH } = GANTT_CHART_DEFAULT_VALUE;
+
   const todayX = dateToX(new Date());
 
   const COLOR_DISPARITY_AHEAD = "#92e896";
@@ -21,8 +23,7 @@ const DisparityRect: React.FC<DisparityRectProps> = ({
         // each task bar rectangle coordinates
         const rowTop = axisHeight + i * barAreaHeight;
         const rectY = rowTop;
-        const rectHeight =
-          barAreaHeight - GANTT_CHART_DEFAULT_VALUE.GRID_STROKE_WIDTH;
+        const rectHeight = barAreaHeight - GRID_STROKE_WIDTH;
 
         // if progress is 100%, don't draw the disparity rectangle
         if (task.progress === 100) return null;

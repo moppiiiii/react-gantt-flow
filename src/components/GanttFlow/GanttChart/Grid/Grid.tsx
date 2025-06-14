@@ -5,11 +5,12 @@ import { GANTT_CHART_DEFAULT_VALUE } from "../constants";
 
 const Grid: React.FC<GridProps> = memo(
   ({ axisHeight, chartWidth, chartHeight, days, taskCount, dateToX }) => {
+    const { BAR_AREA_HEIGHT, GRID_STROKE_WIDTH } = GANTT_CHART_DEFAULT_VALUE;
+
     const renderRows = () =>
       Array.from({ length: taskCount }).map((_, index) => {
-        const y =
-          axisHeight + index * GANTT_CHART_DEFAULT_VALUE.BAR_AREA_HEIGHT;
-        const rowHeight = GANTT_CHART_DEFAULT_VALUE.BAR_AREA_HEIGHT;
+        const y = axisHeight + index * BAR_AREA_HEIGHT;
+        const rowHeight = BAR_AREA_HEIGHT;
         return (
           <rect
             key={`row-${y}`}
@@ -53,15 +54,14 @@ const Grid: React.FC<GridProps> = memo(
             x2={x}
             y2={axisHeight + chartHeight}
             stroke="#ededed"
-            strokeWidth={GANTT_CHART_DEFAULT_VALUE.GRID_STROKE_WIDTH}
+            strokeWidth={GRID_STROKE_WIDTH}
           />
         );
       });
 
     const renderHorizontalLines = () =>
       Array.from({ length: taskCount + 1 }).map((_, index) => {
-        const y =
-          axisHeight + index * GANTT_CHART_DEFAULT_VALUE.BAR_AREA_HEIGHT;
+        const y = axisHeight + index * BAR_AREA_HEIGHT;
         return (
           <line
             key={`hline-${y}`}
@@ -70,7 +70,7 @@ const Grid: React.FC<GridProps> = memo(
             x2={chartWidth}
             y2={y}
             stroke="#ededed"
-            strokeWidth={GANTT_CHART_DEFAULT_VALUE.GRID_STROKE_WIDTH}
+            strokeWidth={GRID_STROKE_WIDTH}
           />
         );
       });
