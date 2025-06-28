@@ -26,9 +26,9 @@ const Bar: React.FC<BarProps> = ({
   const [isHovered, setIsHovered] = useState(false);
 
   // Drag target type (null = not dragging)
-  const [dragType, setDragType] = useState<"start" | "end" | "progress" | null>(
-    null,
-  );
+  const [dragType, setDragType] = useState<
+    "start" | "end" | "progress" | "bar" | null
+  >(null);
 
   // Bar name display position calculation
   const [displayOutside, setDisplayOutside] = useState(false);
@@ -90,6 +90,21 @@ const Bar: React.FC<BarProps> = ({
     setDragType("progress");
   };
 
+  /**
+   * バー本体のドラッグ開始
+   */
+  const onMouseDownBar = (
+    event: React.MouseEvent<SVGRectElement | SVGGElement>,
+  ) => {
+    event.stopPropagation();
+    event.preventDefault();
+
+    dragDataRef.current.initialMouseX = event.clientX;
+    dragDataRef.current.initialStartX = startX;
+    dragDataRef.current.initialEndX = endX;
+    setDragType("bar");
+  };
+
   useEffect(() => {
     /**
      * mouse move handler called during a drag
@@ -141,7 +156,28 @@ const Bar: React.FC<BarProps> = ({
         // ドラッグ中の内部更新（外部通知なし）
         onDateChange(task.id, localStartDate, newEndDate, localProgress, false);
       }
-      // (3) progress handle is dragging
+      // (3) バー本体をドラッグ中
+      else if (dragType === "bar") {
+        const GRID_WIDTH = GRID_COLUMN_WIDTH;
+        const daysDelta = Math.round(deltaX / GRID_WIDTH);
+
+        const baseStartDate = xToDate(initialStartX);
+        const baseEndDate = xToDate(initialEndX);
+
+        const newStartDate = new Date(
+          baseStartDate.getTime() + daysDelta * ONE_DAY_MS,
+        );
+        const newEndDate = new Date(
+          baseEndDate.getTime() + daysDelta * ONE_DAY_MS,
+        );
+
+        setLocalStartDate(newStartDate);
+        setLocalEndDate(newEndDate);
+
+        // ドラッグ中の内部更新（外部通知なし）
+        onDateChange(task.id, newStartDate, newEndDate, localProgress, false);
+      }
+      // (4) progress handle is dragging
       else if (dragType === "progress") {
         const deltaProgress = (deltaX / width) * 100;
         let newProgress = initialProgress + deltaProgress;
@@ -220,6 +256,7 @@ const Bar: React.FC<BarProps> = ({
         ry="5"
         width={width}
         height={BAR_AREA_HEIGHT - BAR_ALIGN_MARGIN * 2}
+        onMouseDown={onMouseDownBar}
       />
 
       {/* progress bar */}
@@ -232,6 +269,7 @@ const Bar: React.FC<BarProps> = ({
           ry="5"
           width={progressWidth}
           height={BAR_AREA_HEIGHT - BAR_ALIGN_MARGIN * 2}
+          onMouseDown={onMouseDownBar}
         />
       )}
 
