@@ -91,7 +91,7 @@ const Bar: React.FC<BarProps> = ({
   };
 
   /**
-   * バー本体のドラッグ開始
+   * Start dragging the bar body
    */
   const onMouseDownBar = (
     event: React.MouseEvent<SVGRectElement | SVGGElement>,
@@ -153,10 +153,10 @@ const Bar: React.FC<BarProps> = ({
 
         setLocalEndDate(newEndDate);
 
-        // ドラッグ中の内部更新（外部通知なし）
+        // Internal update during dragging (no external notification)
         onDateChange(task.id, localStartDate, newEndDate, localProgress, false);
       }
-      // (3) バー本体をドラッグ中
+      // (3) dragging the bar body
       else if (dragType === "bar") {
         const GRID_WIDTH = GRID_COLUMN_WIDTH;
         const daysDelta = Math.round(deltaX / GRID_WIDTH);
@@ -174,7 +174,7 @@ const Bar: React.FC<BarProps> = ({
         setLocalStartDate(newStartDate);
         setLocalEndDate(newEndDate);
 
-        // ドラッグ中の内部更新（外部通知なし）
+        // Internal update during dragging (no external notification)
         onDateChange(task.id, newStartDate, newEndDate, localProgress, false);
       }
       // (4) progress handle is dragging
@@ -184,7 +184,7 @@ const Bar: React.FC<BarProps> = ({
         newProgress = Math.max(0, Math.min(100, newProgress));
         setLocalProgress(newProgress);
 
-        // ドラッグ中の内部更新（外部通知なし）
+        // Internal update during dragging (no external notification)
         onDateChange(task.id, localStartDate, localEndDate, newProgress, false);
       }
     };
@@ -234,6 +234,20 @@ const Bar: React.FC<BarProps> = ({
     xToDate,
     onDateChange,
   ]);
+
+  /**
+   * When the task property passed from the parent component is updated
+   * (= changed by auto-layout of dependent tasks, etc.),
+   * synchronize the local state if not dragging.
+   */
+  useEffect(() => {
+    if (dragType === null) {
+      setLocalStartDate(task.startDate);
+      setLocalEndDate(task.endDate);
+      setLocalProgress(task.progress);
+    }
+    // By including dragType in the dependency array, synchronize only once after drag ends
+  }, [task.startDate, task.endDate, task.progress, dragType]);
 
   useEffect(() => {
     if (textRef.current) {

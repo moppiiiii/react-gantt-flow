@@ -9,6 +9,11 @@ import type { Task } from "@/types/task";
  */
 export type GanttChartProps = {
   /**
+   * If true, enables automatic layout for dependent tasks.
+   * @default false
+   */
+  autoLayoutDependencies?: boolean;
+  /**
    * A boolean flag that, if true, activates visual indicators to highlight discrepancies between planned and actual timelines.
    * @default false
    */
