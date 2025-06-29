@@ -46,3 +46,12 @@ export const DisparityDisplay: Story = {
     disparityDisplay: true,
   },
 };
+
+export const AutoLayoutDependencies: Story = {
+  args: {
+    task: TASK_MOCK_DATA,
+    todaysLineDisplay: true,
+    disparityDisplay: true,
+    autoLayoutDependencies: true,
+  },
+};
