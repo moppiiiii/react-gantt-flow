@@ -1,6 +1,6 @@
 {
   "name": "@mopex/react-gantt-flow",
-  "version": "0.0.1-beta.0",
+  "version": "0.0.1-beta.1",
   "author": "moppiiiii",
   "description": "A lightweight and high-performance React (TypeScript) based Gantt chart component.",
   "packageManager": "pnpm@10.6.3",
