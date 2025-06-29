@@ -13,6 +13,7 @@ const GanttFlow: React.FC<GanttFlowProps> = memo(
     task,
     taskListDisplay,
     todaysLineDisplay,
+    autoLayoutDependencies = false,
     onChange,
   }) => {
     // Re-run normalization only when task changes
@@ -27,6 +28,7 @@ const GanttFlow: React.FC<GanttFlowProps> = memo(
               task={normalizedTasks}
               todaysLineDisplay={todaysLineDisplay}
               disparityDisplay={disparityDisplay}
+              autoLayoutDependencies={autoLayoutDependencies}
               onDateChange={onChange}
             />
           </div>
