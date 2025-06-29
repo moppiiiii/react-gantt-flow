@@ -31,6 +31,7 @@ const GanttChart: React.FC<GanttChartProps> = ({
   disparityDisplay,
   task,
   todaysLineDisplay,
+  autoLayoutDependencies = false,
   onDateChange,
 }) => {
   const [tasksState, setTasksState] = useState(task);
@@ -72,16 +73,53 @@ const GanttChart: React.FC<GanttChartProps> = ({
     ) => {
       // local state update
       setTasksState((prev) => {
-        const updated = prev.map((t) =>
-          t.id === taskId
-            ? {
-                ...t,
-                startDate: newStart,
-                endDate: newEnd,
-                ...(newProgress !== undefined ? { progress: newProgress } : {}),
+        const original = prev.find((t) => t.id === taskId);
+        const deltaMs =
+          original !== undefined
+            ? newStart.getTime() - original.startDate.getTime()
+            : 0;
+
+        /**
+         * 1) First, recursively collect dependent task IDs
+         */
+        const dependents: Set<string> = new Set();
+        if (autoLayoutDependencies && deltaMs !== 0) {
+          const collect = (parentId: string) => {
+            for (const t of prev) {
+              if (t.dependencies.includes(parentId) && !dependents.has(t.id)) {
+                dependents.add(t.id);
+                collect(t.id);
               }
-            : t,
-        );
+            }
+          };
+          collect(taskId);
+        }
+
+        /**
+         * 2) Shift dates in bulk including dependent tasks
+         */
+        const updated = prev.map((t) => {
+          // Task that was moved
+          if (t.id === taskId) {
+            return {
+              ...t,
+              startDate: newStart,
+              endDate: newEnd,
+              ...(newProgress !== undefined ? { progress: newProgress } : {}),
+            };
+          }
+
+          // Dependent task
+          if (dependents.has(t.id)) {
+            return {
+              ...t,
+              startDate: new Date(t.startDate.getTime() + deltaMs),
+              endDate: new Date(t.endDate.getTime() + deltaMs),
+            };
+          }
+
+          return t; // No changes for others
+        });
 
         if (shouldNotifyExternal) {
           setRange(calcRange(updated));
@@ -94,7 +132,7 @@ const GanttChart: React.FC<GanttChartProps> = ({
         onDateChange(taskId, newStart, newEnd, newProgress);
       }
     },
-    [onDateChange],
+    [onDateChange, autoLayoutDependencies],
   );
 
   return (
