@@ -8,6 +8,14 @@ import type { Task } from "@/types/task";
  * to highlight differences between planned and actual timelines.
  */
 export type GanttFlowProps = {
+  /**
+   * Drag and drop to move the task, if true, the subsequent tasks with dependencies will be automatically laid out (shifted by the same number of days).
+   * @default false
+   */
+  autoLayoutDependencies?: boolean;
+  /**
+   * A boolean flag that, if true, activates visual indicators to highlight discrepancies between planned and actual timelines.
+   */
   disparityDisplay?: boolean;
   /**
    * An array of task objects conforming to the Task type.

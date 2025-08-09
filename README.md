@@ -134,6 +134,7 @@ type Task = {
   endDate: Date;
   progress: number; // 0 ~ 100
   dependencies: string[];
+  status: "todo" | "inProgress" | "done";
 };
 ```
 

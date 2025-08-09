@@ -31,6 +31,7 @@ const GanttChart: React.FC<GanttChartProps> = ({
   disparityDisplay,
   task,
   todaysLineDisplay,
+  autoLayoutDependencies = false,
   onDateChange,
 }) => {
   const [tasksState, setTasksState] = useState(task);
@@ -70,31 +71,63 @@ const GanttChart: React.FC<GanttChartProps> = ({
       newProgress?: number,
       shouldNotifyExternal = true,
     ) => {
-      // local state update
-      setTasksState((prev) => {
-        const updated = prev.map((t) =>
-          t.id === taskId
-            ? {
-                ...t,
-                startDate: newStart,
-                endDate: newEnd,
-                ...(newProgress !== undefined ? { progress: newProgress } : {}),
-              }
-            : t,
-        );
+      // ① Create updated array including dependent tasks
+      const original = tasksState.find((t) => t.id === taskId);
+      const deltaMs =
+        original !== undefined
+          ? newStart.getTime() - original.startDate.getTime()
+          : 0;
 
-        if (shouldNotifyExternal) {
-          setRange(calcRange(updated));
+      const dependents: Set<string> = new Set();
+      if (autoLayoutDependencies && deltaMs !== 0) {
+        const collect = (parentId: string) => {
+          for (const t of tasksState) {
+            if (t.dependencies.includes(parentId) && !dependents.has(t.id)) {
+              dependents.add(t.id);
+              collect(t.id);
+            }
+          }
+        };
+        collect(taskId);
+      }
+
+      const updated = tasksState.map((t) => {
+        if (t.id === taskId) {
+          return {
+            ...t,
+            startDate: newStart,
+            endDate: newEnd,
+            ...(newProgress !== undefined ? { progress: newProgress } : {}),
+          };
         }
-        return updated;
+        if (dependents.has(t.id)) {
+          return {
+            ...t,
+            startDate: new Date(t.startDate.getTime() + deltaMs),
+            endDate: new Date(t.endDate.getTime() + deltaMs),
+          };
+        }
+        return t;
       });
 
-      // notify external (user) only if the flag is enabled
+      // ② Update local state
+      setTasksState(updated);
+      if (shouldNotifyExternal) {
+        setRange(calcRange(updated));
+      }
+
+      // ③ Notify external (including dependent tasks)
       if (shouldNotifyExternal && onDateChange) {
         onDateChange(taskId, newStart, newEnd, newProgress);
+        for (const depId of dependents) {
+          const d = updated.find((t) => t.id === depId);
+          if (d) {
+            onDateChange(depId, d.startDate, d.endDate, d.progress);
+          }
+        }
       }
     },
-    [onDateChange],
+    [tasksState, onDateChange, autoLayoutDependencies],
   );
 
   return (
