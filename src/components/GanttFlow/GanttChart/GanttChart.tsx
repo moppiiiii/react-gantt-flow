@@ -110,9 +110,9 @@ const GanttChart: React.FC<GanttChartProps> = ({
         return t;
       });
 
-      // ② Update local state
-      setTasksState(updated);
+      // ② Update local state (commit only when external notification is required)
       if (shouldNotifyExternal) {
+        setTasksState(updated);
         setRange(calcRange(updated));
       }
 
