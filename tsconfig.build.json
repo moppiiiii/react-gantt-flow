@@ -17,9 +17,5 @@
     "moduleResolution": "node"
   },
   "include": ["src"],
-  "exclude": [
-    "src/components/GanttFlow/data",
-    "**/*.stories.tsx",
-    "**/*.test.tsx"
-  ]
+  "exclude": ["src/components/GanttFlow/data", "**/*.stories.*", "**/*.test.*"]
 }

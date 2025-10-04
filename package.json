@@ -16,10 +16,12 @@
   "type": "module",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/react-gantt-flow.js",
       "require": "./dist/react-gantt-flow.cjs"
     }
   },
+  "types": "./dist/index.d.ts",
   "module": "./dist/react-gantt-flow.js",
   "main": "./dist/react-gantt-flow.cjs",
   "files": ["dist", "images", "README.md"],

@@ -14,6 +14,11 @@ export default defineConfig({
     dts({
       tsconfigPath: "tsconfig.build.json",
       insertTypesEntry: true,
+      exclude: [
+        "src/**/*.test.*",
+        "src/**/*.stories.*",
+        "src/components/GanttFlow/data/**",
+      ],
     }),
   ],
   resolve: {
@@ -26,6 +31,7 @@ export default defineConfig({
       entry: resolve(".", "src/index.ts"),
       name: "react-gantt-flow",
       fileName: "react-gantt-flow",
+      formats: ["es", "cjs", "umd"],
     },
     rollupOptions: {
       external: ["react", "react-dom"],
