@@ -257,10 +257,7 @@ const Bar: React.FC<BarProps> = ({
   }, [width]);
 
   return (
-    <g
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
+    <g>
       {/* bar background */}
       <rect
         className={styles["default-bar"]}
@@ -270,6 +267,17 @@ const Bar: React.FC<BarProps> = ({
         ry="5"
         width={width}
         height={BAR_AREA_HEIGHT - BAR_ALIGN_MARGIN * 2}
+        role="button"
+        tabIndex={0}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        onFocus={() => setIsHovered(true)}
+        onBlur={() => setIsHovered(false)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+          }
+        }}
         onMouseDown={onMouseDownBar}
       />
 
@@ -283,6 +291,17 @@ const Bar: React.FC<BarProps> = ({
           ry="5"
           width={progressWidth}
           height={BAR_AREA_HEIGHT - BAR_ALIGN_MARGIN * 2}
+          role="button"
+          tabIndex={0}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          onFocus={() => setIsHovered(true)}
+          onBlur={() => setIsHovered(false)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+            }
+          }}
           onMouseDown={onMouseDownBar}
         />
       )}

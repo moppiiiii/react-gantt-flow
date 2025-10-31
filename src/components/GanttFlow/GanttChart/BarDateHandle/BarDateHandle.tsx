@@ -10,7 +10,9 @@ const BarDateHandle: React.FC<BarDateHandleProps> = ({
 }) => {
   return (
     <rect
+      role="button"
       tabIndex={0}
+      aria-label={type === "start" ? "Start date handle" : "End date handle"}
       className={styles["bar-date-handle"]}
       x={x}
       y={y}
@@ -18,6 +20,11 @@ const BarDateHandle: React.FC<BarDateHandleProps> = ({
       height={20}
       ry={2}
       rx={2}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+        }
+      }}
       onMouseDown={(event) => onMouseDownDateHandle(type, event)}
     />
   );
