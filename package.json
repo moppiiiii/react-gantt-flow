@@ -60,10 +60,11 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.0.6",
-    "@chromatic-com/storybook": "^3.2.7",
+    "@chromatic-com/storybook": "^4.1.2",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@eslint/js": "^9.38.0",
+    "@storybook/addon-docs": "9.1.16",
     "@storybook/react-vite": "9.1.16",
     "@types/node": "^22.18.13",
     "@types/react": "^19.2.2",
@@ -86,8 +87,7 @@
     "vite": "^7.1.12",
     "vite-plugin-dts": "^4.5.4",
     "vite-plugin-lib-inject-css": "^2.2.2",
-    "vitest": "^3.2.4",
-    "@storybook/addon-docs": "9.1.16"
+    "vitest": "^3.2.4"
   },
   "eslintConfig": {
     "extends": [
