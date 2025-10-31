@@ -35,7 +35,6 @@
     "README.md"
   ],
   "scripts": {
-    "prepare": "lefthook install",
     "dev": "vite",
     "dev:css": "tcm src --watch",
     "build": "tsc -b && vite build",
