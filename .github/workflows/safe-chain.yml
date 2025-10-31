@@ -16,11 +16,16 @@ jobs:
         with:
           node-version-file: ./.node-version
 
-      - name: Setup safe-chain
+      - name: Install safe-chain
         run: |
           npm i -g @aikidosec/safe-chain
-          safe-chain setup-ci
-      
-      - name: Install dependencies
+
+      - name: Generate package-lock.json (no install)
+        run: npm i --package-lock-only
+
+      - name: Setup safe-chain
         run: |
-          npm i
+          safe-chain setup-ci
+
+      - name: Install dependencies
+        run: npm ci
